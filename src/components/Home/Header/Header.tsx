@@ -18,22 +18,26 @@ const Header = () => {
                 </span>
             </div>
 
-            {/* Navigation Menu (Desktop) */}
-            <Menu />
+            {/* Right Action Area */}
+            <div className="flex items-center gap-2">
+                {/* Navigation Menu (Desktop) */}
+                <Menu />
 
-            {/* Menu Icon (Mobile) */}
-            <button
-                onClick={() => setIsMenuOpen(true)}
-                className="md:hidden p-2 hover:bg-secondary/5 rounded-full transition-colors"
-            >
-                <MenuIcon size={28} className="text-secondary" />
-            </button>
+                {/* Menu Icon (Mobile) */}
+                <button
+                    onClick={() => setIsMenuOpen(true)}
+                    className="md:hidden p-2 hover:bg-secondary/5 rounded-full transition-colors"
+                >
+                    <MenuIcon size={28} className="text-secondary" />
+                </button>
+            </div>
 
             {/* Mobile Menu Overlay */}
             <MobileMenu
                 isOpen={isMenuOpen}
                 onClose={() => setIsMenuOpen(false)}
             />
+
         </header>
     );
 };

@@ -28,8 +28,8 @@ const Menu = () => {
     }, [isDropdownOpen]);
 
     return (
-        <nav className="hidden md:flex items-center gap-8">
-            <ul className="flex items-center gap-8">
+        <nav className="flex items-center gap-8">
+            <ul className="hidden md:flex items-center gap-8">
                 {navLinks.map((link) => (
                     <li key={link.name}>
                         <a
@@ -41,11 +41,11 @@ const Menu = () => {
                     </li>
                 ))}
             </ul>
-            <div className="flex items-center gap-4 border-l border-secondary/10 pl-8">
+            <div className="flex items-center gap-4 md:border-l md:border-secondary/10 md:pl-8">
                 <button className="p-2 hover:bg-secondary/5 rounded-full transition-colors">
                     <Search size={20} className="text-secondary" />
                 </button>
-                <div className="relative" ref={dropdownRef}>
+                <div className="relative hidden md:block" ref={dropdownRef}>
                     <button
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                         className="bg-secondary text-primary px-6 py-2.5 rounded-full font-semibold hover:opacity-90 transition-all flex items-center gap-2"
