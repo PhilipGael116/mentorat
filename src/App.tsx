@@ -6,7 +6,7 @@ import SignUp from "./components/Auth/signup-mentor/Signup"
 import RegistrationWizzard from "./components/Auth/signup-mentor/RegistrationWizzard"
 import SignUpMentee from "./components/Auth/signup-mentee/SignUpMentee"
 import MentorLayout from "./layouts/MentorLayout"
-import DashBoard from "./pages/Mentor/DashBoard"
+import { Students, DashBoard, Reviews } from "./pages/Mentor"
 
 const App = () => {
   return (
@@ -29,6 +29,8 @@ const App = () => {
       <Routes>
         <Route element={<MentorLayout />}>
           <Route path="/mentor" element={<DashBoard />} />
+          <Route path="/students" element={<Students />} />
+          <Route path="/reviews" element={<Reviews />} />
         </Route>
       </Routes>
     </div>

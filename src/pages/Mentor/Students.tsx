@@ -1,7 +1,8 @@
-import { Star, User } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Filter } from "lucide-react";
+import { FaSort, FaFilter } from "react-icons/fa";
 
-const DashBoard = () => {
+
+const Students = () => {
     const recentStudents = [
         {
             id: 1,
@@ -21,38 +22,46 @@ const DashBoard = () => {
             email: "sam.etoo@outlook.com",
             dateJoined: "24th February, 2026",
         },
+        {
+            id: 4,
+            name: "Samuel Eto'o",
+            email: "sam.etoo@outlook.com",
+            dateJoined: "24th February, 2026",
+        },
+        {
+            id: 5,
+            name: "Samuel Eto'o",
+            email: "sam.etoo@outlook.com",
+            dateJoined: "24th February, 2026",
+        },
+        {
+            id: 6,
+            name: "Samuel Eto'o",
+            email: "sam.etoo@outlook.com",
+            dateJoined: "24th February, 2026",
+        },
+        {
+            id: 7,
+            name: "Samuel Eto'o",
+            email: "sam.etoo@outlook.com",
+            dateJoined: "24th February, 2026",
+        },
     ];
 
     return (
         <div className="sm:mx-20 sm:my-10 mx-10 my-5">
-            <div className="flex justify-between items-center">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-heading">Welcome, Philippe</h1>
-                <User size={24} className="bg-accent/7 p-2 rounded-full w-10 h-10 flex items-center justify-center" />
-            </div>
-
-            {/* Stats */}
-            <div className="flex flex-col sm:flex-row gap-10 mt-10">
-                <div className="p-10 rounded-2xl shadow-sm w-1/2 flex items-center justify-between bg-accent/7 sm:w-full">
-                    <div>
-                        <h2 className="lg:text-2xl text-xl font-heading">No. of Students</h2>
-                        <p className="lg:text-4xl text-3xl font-heading mt-2">100</p>
-                    </div>
-                    <User size={30} className="w-7 h-7 flex items-center justify-center" />
-                </div>
-                <div className="p-10 rounded-2xl shadow-sm w-1/2 flex items-center justify-between bg-green-500/7 sm:w-full">
-                    <div>
-                        <h2 className="lg:text-2xl  text-xl font-heading">Av. Rating</h2>
-                        <p className="lg:text-4xl text-3xl font-heading mt-2">4.8</p>
-                    </div>
-                    <Star size={30} className="w-7 h-7 flex items-center justify-center" />
-                </div>
-            </div>
-
             {/* Recent Students */}
             <div className="mt-10 px-10 pb-10 pt-4 border rounded-2xl border-gray-300">
                 <div className="flex justify-between items-center mb-8">
                     <h2 className="text-2xl font-heading">Recent Students</h2>
-                    <Link to="/students" className="rounded-xl bg-secondary text-white p-2 px-4 text-sm font-semibold flex items-center justify-center">View all</Link>
+                    <div className="flex gap-4 items-center">
+                        <div className="flex gap-2 items-center">
+                            Sort <FaSort />
+                        </div>
+                        <div className="flex gap-2 items-center">
+                            Filter <Filter />
+                        </div>
+                    </div>
                 </div>
 
                 {/* Table Header */}
@@ -84,4 +93,4 @@ const DashBoard = () => {
     )
 }
 
-export default DashBoard
+export default Students
