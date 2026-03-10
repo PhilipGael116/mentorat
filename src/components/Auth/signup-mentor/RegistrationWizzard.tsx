@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useMultiStepRegister } from "./useMultiStepRegister";
-import { ChevronRight, ChevronLeft } from "lucide-react";
+import { ChevronRight, ChevronLeft, MapPin, Loader2 } from "lucide-react";
 
 // Validation schemas for each step
 const step1Schema = z.object({}); // Welcome step, no validation needed
@@ -17,6 +17,7 @@ const step3Schema = z.object({
 const step4Schema = z.object({
     currentStatus: z.string().min(5, "Please tell us your current status"),
     experience: z.string().min(10, "Briefly describe your experience"),
+    location: z.string().min(2, "Please provide your location"),
 });
 
 const RegistrationWizzard = () => {
@@ -28,12 +29,49 @@ const RegistrationWizzard = () => {
         aLevelSeries: "",
         currentStatus: "",
         experience: "",
+        location: "",
     });
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [isDetectingLocation, setIsDetectingLocation] = useState(false);
 
     const updateFields = (fields: Partial<typeof formData>) => {
         setFormData(prev => ({ ...prev, ...fields }));
+    };
+
+    const detectLocation = () => {
+        if (!navigator.geolocation) {
+            console.error("Geolocation not supported");
+            return;
+        }
+
+        setIsDetectingLocation(true);
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                try {
+                    const { latitude, longitude } = position.coords;
+                    const response = await fetch(
+                        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                    );
+                    const data = await response.json();
+                    const city = data.address.city || data.address.town || data.address.village || data.address.state || "";
+                    const country = data.address.country || "";
+                    const locationString = city ? `${city}, ${country}` : country;
+
+                    if (locationString) {
+                        updateFields({ location: locationString });
+                    }
+                } catch (error) {
+                    console.error("Error fetching location details:", error);
+                } finally {
+                    setIsDetectingLocation(false);
+                }
+            },
+            (error) => {
+                console.error("Geolocation error:", error);
+                setIsDetectingLocation(false);
+            }
+        );
     };
 
     const validateStep = (index: number) => {
@@ -185,12 +223,37 @@ const RegistrationWizzard = () => {
                     {errors.currentStatus && <p className="text-red-500 text-xs mt-1 font-medium">{errors.currentStatus}</p>}
                 </div>
                 <div className="flex flex-col">
+                    <label className="text-sm font-medium text-gray-700 mb-1.5">Your Location</label>
+                    <div className="relative">
+                        <input
+                            type="text"
+                            value={formData.location}
+                            onChange={e => updateFields({ location: e.target.value })}
+                            placeholder="e.g. Douala, Cameroon"
+                            className={`w-full px-4 py-3 pl-11 border-2 rounded-xl focus:outline-none transition-all ${errors.location ? "border-red-500 focus:ring-red-500" : "border-gray-200 focus:ring-accent"}`}
+                        />
+                        <button
+                            type="button"
+                            onClick={detectLocation}
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-accent transition-colors"
+                            title="Detect current location"
+                        >
+                            {isDetectingLocation ? (
+                                <Loader2 size={20} className="animate-spin text-accent" />
+                            ) : (
+                                <MapPin size={20} />
+                            )}
+                        </button>
+                    </div>
+                    {errors.location && <p className="text-red-500 text-xs mt-1 font-medium">{errors.location}</p>}
+                </div>
+                <div className="flex flex-col">
                     <label className="text-sm font-medium text-gray-700 mb-1.5">Briefly describe your experience</label>
                     <textarea
                         value={formData.experience}
                         onChange={e => updateFields({ experience: e.target.value })}
                         placeholder="I have been working in the tech industry for..."
-                        className={`px-4 py-3 border-2 rounded-xl focus:outline-none transition-all h-32 ${errors.experience ? "border-red-500 focus:ring-red-500" : "border-gray-200 focus:ring-accent"}`}
+                        className={`px-4 py-3 border-2 rounded-xl focus:outline-none transition-all h-28 ${errors.experience ? "border-red-500 focus:ring-red-500" : "border-gray-200 focus:ring-accent"}`}
                     />
                     {errors.experience && <p className="text-red-500 text-xs mt-1 font-medium">{errors.experience}</p>}
                 </div>
@@ -199,6 +262,13 @@ const RegistrationWizzard = () => {
     ];
 
     const { currentStepIndex, step, isFirstStep, isLastStep, next, prev } = useMultiStepRegister(steps);
+
+    useEffect(() => {
+        // Try to get location by default when the component mounts or when reaching the last step
+        if (currentStepIndex === 3 && !formData.location && !isDetectingLocation) {
+            detectLocation();
+        }
+    }, [currentStepIndex]);
 
     const handleNext = () => {
         if (validateStep(currentStepIndex)) {
