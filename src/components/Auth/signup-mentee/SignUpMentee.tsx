@@ -49,6 +49,14 @@ const SignUp = () => {
         // 3. If it succeeds, clear errors and proceed
         setErrors({});
         console.log("Form Submitted Successfully: ", result.data);
+
+        setFormData({
+            fname: "",
+            lname: "",
+            email: "",
+            phone: "",
+            password: "",
+        })
     }
 
     return (
