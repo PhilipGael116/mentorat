@@ -1,13 +1,21 @@
 import { Route, Routes } from "react-router-dom"
 import Home from "./pages/Home"
-import { Header } from "./components/Home/Header"
+import { SignIn } from "./components/Auth"
+import AuthLayout from "./layouts/Authlayout"
+
 
 const App = () => {
   return (
     <div className="bg-primary min-h-screen">
-      <Header />
       <Routes>
         <Route path="/" element={<Home />} index />
+      </Routes>
+
+      {/* Auth Routes */}
+      <Routes>
+        <Route element={<AuthLayout />}>
+          <Route path="/sign-in" element={<SignIn />} />
+        </Route>
       </Routes>
     </div>
   )

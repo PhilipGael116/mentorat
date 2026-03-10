@@ -1,5 +1,6 @@
 import { X, ChevronDown } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 interface MobileMenuProps {
     isOpen: boolean;
@@ -93,9 +94,9 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
                         </div>
                     )}
                 </div>
-                <button className="w-full border-2 border-secondary text-secondary py-4 rounded-2xl font-bold text-xl hover:bg-secondary/5 transition-colors">
+                <Link to="/sign-in" className="block w-full border-2 border-secondary text-secondary py-4 rounded-2xl font-bold text-xl hover:bg-secondary/5 transition-colors">
                     Sign in
-                </button>
+                </Link>
             </div>
         </div>
     );

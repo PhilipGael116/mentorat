@@ -1,5 +1,6 @@
 import { Search, ChevronDown } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Menu = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -65,6 +66,9 @@ const Menu = () => {
                             <button className="w-full text-left px-4 py-3 text-secondary font-medium hover:bg-secondary/5 transition-colors border-t border-secondary/5">
                                 as a mentee
                             </button>
+                            <Link to="/sign-in" className="block w-full text-left px-4 py-3 text-secondary font-medium hover:bg-secondary/5 transition-colors border-t border-secondary/5">
+                                Sign in
+                            </Link>
                         </div>
                     )}
                 </div>
