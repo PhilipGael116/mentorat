@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useMultiStepRegister } from "./useMultiStepRegister";
 import { ChevronRight, ChevronLeft, MapPin, Loader2 } from "lucide-react";
+import { useAuthStore } from "../../../store";
 
 // Validation schemas for each step
 const step1Schema = z.object({}); // Welcome step, no validation needed
@@ -22,6 +23,7 @@ const step4Schema = z.object({
 
 const RegistrationWizzard = () => {
     const navigate = useNavigate();
+    const setUser = useAuthStore((state) => state.setUser);
     const [formData, setFormData] = useState({
         hasOLevel: true,
         oLevelSeries: "",
@@ -274,7 +276,8 @@ const RegistrationWizzard = () => {
         if (validateStep(currentStepIndex)) {
             if (isLastStep) {
                 console.log("Wizard Complete:", formData);
-                navigate("/home"); // Final destination
+                setUser(true);
+                navigate("/mentor"); // Final destination
             } else {
                 next();
             }

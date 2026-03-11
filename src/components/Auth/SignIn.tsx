@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { z } from 'zod'
+import { useAuthStore } from "../../store"
 
 import { ChevronRight } from "lucide-react"
 
@@ -10,6 +11,7 @@ const userSchema = z.object({
 })
 
 const SignIn = () => {
+    const setUser = useAuthStore((state) => state.setUser);
 
     const [formData, setFormData] = useState({
         email: '',
@@ -47,6 +49,7 @@ const SignIn = () => {
         // 3. If it succeeds, clear errors and proceed
         setErrors({});
         console.log("Form submitted successfully: ", result.data);
+        setUser(true);
 
         // Reset form or redirect
         setFormData({
