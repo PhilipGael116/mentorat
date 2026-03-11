@@ -149,17 +149,18 @@ const RegistrationWizzard = () => {
                     {formData.hasOLevel && (
                         <div className="flex flex-col gap-2">
                             <label className="text-sm font-medium text-gray-700">Which series did you take?</label>
-                            <select
-                                value={formData.oLevelSeries}
-                                onChange={e => updateFields({ oLevelSeries: e.target.value })}
-                                className={`w-full px-4 py-3 rounded-xl border-2 outline-none focus:ring-2 transition-all ${errors.oLevelSeries ? 'border-red-500 focus:ring-red-500' : 'border-gray-200 focus:ring-accent'}`}
-                            >
-                                <option value="">Select Series</option>
-                                <option value="Science">Science</option>
-                                <option value="Arts">Arts</option>
-                                <option value="Technical">Technical</option>
-                                <option value="Commercial">Commercial</option>
-                            </select>
+                            <div className="grid grid-cols-2 gap-3">
+                                {['Science', 'Arts', 'Technical', 'Commercial'].map(series => (
+                                    <button
+                                        key={series}
+                                        type="button"
+                                        onClick={() => updateFields({ oLevelSeries: series })}
+                                        className={`py-3 px-4 rounded-xl border-2 transition-all text-sm font-medium ${formData.oLevelSeries === series ? 'border-accent bg-accent/5 text-accent font-bold' : 'border-gray-200 text-gray-500 hover:border-gray-400'}`}
+                                    >
+                                        {series}
+                                    </button>
+                                ))}
+                            </div>
                             {errors.oLevelSeries && <p className="text-red-500 text-xs mt-1 font-medium">{errors.oLevelSeries}</p>}
                         </div>
                     )}

@@ -1,8 +1,15 @@
 import { useLocation, Link } from "react-router-dom"
 import { LayoutDashboard, LogOut, MessageSquare, User } from "lucide-react"
+import { useAuthStore } from "../../store";
 
 const SideBar = () => {
     const location = useLocation();
+    const setUser = useAuthStore((state) => state.setUser);
+
+    const logout = () => {
+        setUser(false);
+    }
+
     const items = [
         {
             title: "Dashboard",
@@ -22,7 +29,7 @@ const SideBar = () => {
         {
             title: "Logout",
             icon: <LogOut size={20} />,
-            path: "/logout"
+            path: "/sign-in"
         },
     ]
 
@@ -44,7 +51,7 @@ const SideBar = () => {
                 })}
             </div>
 
-            <div key={items[3].title} className="flex gap-4 items-center cursor-pointer hover:text-red-500 transition-colors pt-10 border-t border-gray-300">
+            <div onClick={logout} key={items[3].title} className="flex gap-4 items-center cursor-pointer hover:text-red-500 transition-colors pt-10 border-t border-gray-300">
                 {items[3].icon}
                 <span className="font-semibold">{items[3].title}</span>
             </div>
