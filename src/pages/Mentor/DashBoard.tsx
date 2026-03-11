@@ -1,7 +1,16 @@
-import { Star, User } from "lucide-react"
+import { useState } from "react"
+import { Star, User, LogOut } from "lucide-react"
 import { Link } from "react-router-dom"
+import { useAuthStore } from "../../store"
 
 const DashBoard = () => {
+    const setUser = useAuthStore((state) => state.setUser);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+    const logout = () => {
+        setUser(false);
+    }
+
     const recentStudents = [
         {
             id: 1,
@@ -24,10 +33,30 @@ const DashBoard = () => {
     ];
 
     return (
-        <div className="sm:mx-20 sm:my-10 mx-10 my-5">
-            <div className="flex justify-between items-center">
+        <div className="sm:mx-20 sm:my-10 mx-6 my-5">
+            <div className="flex justify-between items-center relative">
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-heading">Welcome, Philippe</h1>
-                <User size={24} className="bg-accent/7 p-2 rounded-full w-10 h-10 flex items-center justify-center" />
+
+                <div className="relative">
+                    <button
+                        onClick={() => setIsProfileOpen(!isProfileOpen)}
+                        className="bg-accent/7 p-2 rounded-full w-10 h-10 flex items-center justify-center hover:bg-accent/20 transition-colors"
+                    >
+                        <User size={24} />
+                    </button>
+
+                    {isProfileOpen && (
+                        <div className="absolute right-0 mt-2 w-48 bg-primary border border-gray-200 rounded-2xl shadow-xl overflow-hidden py-2 z-50 animate-in fade-in zoom-in-95 duration-200">
+                            <button
+                                onClick={logout}
+                                className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-red-50 hover:text-red-500 transition-colors"
+                            >
+                                <LogOut size={18} />
+                                Logout
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
 
             {/* Stats */}
@@ -49,14 +78,14 @@ const DashBoard = () => {
             </div>
 
             {/* Recent Students */}
-            <div className="mt-10 px-10 pb-10 pt-4 border rounded-2xl border-gray-300">
+            <div className="mt-10 px-4 sm:px-10 pb-10 pt-4 border rounded-2xl border-gray-300">
                 <div className="flex justify-between items-center mb-8">
                     <h2 className="text-2xl font-heading">Recent Students</h2>
                     <Link to="/students" className="rounded-xl bg-secondary text-white p-2 px-4 text-sm font-semibold flex items-center justify-center">View all</Link>
                 </div>
 
-                {/* Table Header */}
-                <div className="grid grid-cols-[80px_1fr_1fr] border-b border-gray-200 pb-4 mb-6 text-gray-400 font-semibold uppercase text-xs tracking-wider">
+                {/* Table Header (hidden on mobile) */}
+                <div className="hidden sm:grid sm:grid-cols-[80px_1fr_1fr] border-b border-gray-200 pb-4 mb-6 text-gray-400 font-semibold uppercase text-xs tracking-wider">
                     <div>No.</div>
                     <div>Name</div>
                     <div className="text-right">Date Joined</div>
@@ -65,15 +94,27 @@ const DashBoard = () => {
                 {/* Student Rows */}
                 <div className="space-y-6">
                     {recentStudents.map((student, index) => (
-                        <div key={student.id} className="grid grid-cols-[80px_1fr_1fr] items-center">
-                            <div className="font-heading text-lg">{index + 1}</div>
+                        <div
+                            key={student.id}
+                            className="flex flex-col gap-2 sm:grid sm:grid-cols-[80px_1fr_1fr] sm:items-center sm:border-0 border-b border-gray-200 sm:pb-4 sm:mb-0 pb-4 mb-6 last:border-0 last:mb-0"
+                        >
+                            {/* Number */}
+                            <div className="font-heading text-lg">
+                                <span className="sm:hidden text-gray-400 text-sm">No: </span>
+                                {index + 1}
+                            </div>
+
+                            {/* Name + Email */}
                             <div className="flex items-center gap-4">
                                 <div>
                                     <h3 className="text-lg font-heading">{student.name}</h3>
                                     <p className="text-sm text-gray-500">{student.email}</p>
                                 </div>
                             </div>
-                            <div className="text-right font-medium text-gray-600">
+
+                            {/* Date Joined */}
+                            <div className="sm:text-right font-medium text-gray-600">
+                                <span className="sm:hidden text-gray-400 text-sm">Joined: </span>
                                 {student.dateJoined}
                             </div>
                         </div>

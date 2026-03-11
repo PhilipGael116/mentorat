@@ -1,7 +1,3 @@
-import { Filter } from "lucide-react";
-import { FaSort, FaFilter } from "react-icons/fa";
-
-
 const Students = () => {
     const recentStudents = [
         {
@@ -49,23 +45,17 @@ const Students = () => {
     ];
 
     return (
-        <div className="sm:mx-20 sm:my-10 mx-10 my-5">
+        <div className="sm:mx-20 sm:my-10 mx-6 my-5">
             {/* Recent Students */}
-            <div className="mt-10 px-10 pb-10 pt-4 border rounded-2xl border-gray-300">
-                <div className="flex justify-between items-center mb-8">
+            <div className="mt-10 px-4 sm:px-10 pb-10 pt-4 border rounded-2xl border-gray-300">
+
+                {/* Header */}
+                <div className="mb-8">
                     <h2 className="text-2xl font-heading">Recent Students</h2>
-                    <div className="flex gap-4 items-center">
-                        <div className="flex gap-2 items-center">
-                            Sort <FaSort />
-                        </div>
-                        <div className="flex gap-2 items-center">
-                            Filter <Filter />
-                        </div>
-                    </div>
                 </div>
 
-                {/* Table Header */}
-                <div className="grid grid-cols-[80px_1fr_1fr] border-b border-gray-200 pb-4 mb-6 text-gray-400 font-semibold uppercase text-xs tracking-wider">
+                {/* Table Header (hidden on mobile) */}
+                <div className="hidden sm:grid sm:grid-cols-[80px_1fr_1fr] border-b border-gray-200 pb-4 mb-6 text-gray-400 font-semibold uppercase text-xs tracking-wider">
                     <div>No.</div>
                     <div>Name</div>
                     <div className="text-right">Date Joined</div>
@@ -74,23 +64,40 @@ const Students = () => {
                 {/* Student Rows */}
                 <div className="space-y-6">
                     {recentStudents.map((student, index) => (
-                        <div key={student.id} className="grid grid-cols-[80px_1fr_1fr] items-center">
-                            <div className="font-heading text-lg">{index + 1}</div>
+                        <div
+                            key={student.id}
+                            className="flex flex-col gap-2 sm:grid sm:grid-cols-[80px_1fr_1fr] sm:items-center sm:border-0 border-b border-gray-200 sm:pb-4 sm:mb-0 pb-4 mb-6 last:border-0 last:mb-0"
+                        >
+
+                            {/* Number */}
+                            <div className="font-heading text-lg">
+                                <span className="sm:hidden text-gray-400 text-sm">No: </span>
+                                {index + 1}
+                            </div>
+
+                            {/* Name + Email */}
                             <div className="flex items-center gap-4">
                                 <div>
                                     <h3 className="text-lg font-heading">{student.name}</h3>
                                     <p className="text-sm text-gray-500">{student.email}</p>
                                 </div>
                             </div>
-                            <div className="text-right font-medium text-gray-600">
+
+                            {/* Date */}
+                            <div className="sm:text-right font-medium text-gray-600">
+                                <span className="sm:hidden text-gray-400 text-sm">
+                                    Joined:{" "}
+                                </span>
                                 {student.dateJoined}
                             </div>
+
                         </div>
                     ))}
                 </div>
+
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Students
+export default Students;

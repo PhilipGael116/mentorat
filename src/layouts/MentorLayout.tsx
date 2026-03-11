@@ -1,4 +1,5 @@
 import SideBar from '../components/mentor/SideBar'
+import MobileMenu from '../components/mentor/MobileMenu'
 import { Outlet } from 'react-router-dom'
 
 const MentorLayout = () => {
@@ -10,9 +11,10 @@ const MentorLayout = () => {
                 alt=""
             />
             <SideBar />
-            <div className='flex-1'>
+            <div className='flex-1 pb-24 lg:pb-0'>
                 <Outlet />
             </div>
+            <MobileMenu />
         </div>
     )
 }

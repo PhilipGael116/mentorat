@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Filter, Star, ChevronDown } from "lucide-react";
+import { Filter, Star } from "lucide-react";
 import { FaSortAmountDown, FaSortAmountUp } from "react-icons/fa";
 
 const Reviews = () => {
@@ -72,15 +72,15 @@ const Reviews = () => {
     };
 
     return (
-        <div className="sm:mx-20 sm:my-10 mx-10 my-5">
+        <div className="sm:mx-20 sm:my-10 mx-6 my-5">
             {/* Recent Reviews Table */}
-            <div className="mt-10 px-10 pb-10 pt-4 border rounded-2xl border-gray-300 shadow-sm">
-                <div className="flex justify-between items-center mb-8">
+            <div className="mt-10 px-4 sm:px-10 pb-10 pt-4 border rounded-2xl border-gray-300 shadow-sm">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                     <div>
                         <h2 className="text-2xl font-heading">Recent Reviews</h2>
                     </div>
 
-                    <div className="flex gap-4 items-center">
+                    <div className="flex flex-wrap gap-4 items-center">
                         {/* Sort Button */}
                         <button
                             onClick={toggleSort}
@@ -103,8 +103,8 @@ const Reviews = () => {
                     </div>
                 </div>
 
-                {/* Table Header */}
-                <div className="grid grid-cols-[80px_250px_1fr_100px] border-b border-gray-200 pb-4 mb-6 text-gray-400 font-semibold uppercase text-xs tracking-wider">
+                {/* Table Header (hidden on mobile) */}
+                <div className="hidden sm:grid sm:grid-cols-[80px_200px_1fr_100px] border-b border-gray-200 pb-4 mb-6 text-gray-400 font-semibold uppercase text-xs tracking-wider">
                     <div>No.</div>
                     <div>Name</div>
                     <div>Review</div>
@@ -112,19 +112,34 @@ const Reviews = () => {
                 </div>
 
                 {/* Review Rows */}
-                <div className="space-y-8 min-h-[400px]">
+                <div className="space-y-8">
                     {processedReviews.length > 0 ? (
                         processedReviews.map((review, index) => (
-                            <div key={review.id} className="grid grid-cols-[80px_250px_1fr_100px] items-start hover:bg-gray-50/50 p-2 -mx-2 rounded-xl transition-all animate-in fade-in slide-in-from-bottom-2">
-                                <div className="font-heading text-lg pt-1 text-gray-400">{index + 1}</div>
-                                <div className="flex flex-col pr-4">
+                            <div
+                                key={review.id}
+                                className="flex flex-col gap-2 sm:grid sm:grid-cols-[80px_200px_1fr_100px] sm:items-center sm:border-0 border-b border-gray-200 sm:pb-4 sm:mb-0 pb-4 mb-6 last:border-0 last:mb-0"
+                            >
+                                {/* Number */}
+                                <div className="font-heading text-lg text-gray-400">
+                                    <span className="sm:hidden text-gray-400 text-sm">No: </span>
+                                    {index + 1}
+                                </div>
+
+                                {/* Name + Email */}
+                                <div className="flex flex-col">
                                     <h3 className="text-lg font-heading leading-tight">{review.name}</h3>
                                     <p className="text-sm text-gray-500">{review.email}</p>
                                 </div>
-                                <div className="text-gray-600 italic line-clamp-2 pr-6 pt-1">
+
+                                {/* Comment */}
+                                <div className="text-gray-600 italic sm:line-clamp-2 sm:pr-6">
+                                    <span className="sm:hidden text-gray-400 text-sm not-italic block mb-1">Comment: </span>
                                     "{review.comment}"
                                 </div>
-                                <div className="flex items-center justify-end gap-1 pt-1">
+
+                                {/* Rating */}
+                                <div className="flex items-center sm:justify-end gap-1">
+                                    <span className="sm:hidden text-gray-400 text-sm mr-2">Rating: </span>
                                     <span className="font-heading font-bold text-gray-900">{review.rating}</span>
                                     <Star size={16} className="text-yellow-400 fill-yellow-400" />
                                 </div>
