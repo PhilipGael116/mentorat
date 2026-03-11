@@ -12,8 +12,8 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const navLinks = [
-        { name: 'Find a Mentor', href: '#' },
-        { name: 'Become a Mentor', href: '#' },
+        { name: 'Find a Mentor', href: '/register-mentee' },
+        { name: 'Become a Mentor', href: '/register-mentor' },
         { name: 'Resources', href: '#' },
     ];
 
@@ -58,13 +58,13 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
                 <ul className="flex flex-col gap-6">
                     {navLinks.map((link) => (
                         <li key={link.name}>
-                            <a
-                                href={link.href}
+                            <Link
+                                to={link.href}
                                 onClick={onClose}
                                 className="text-4xl font-semibold text-secondary hover:text-accent transition-colors block"
                             >
                                 {link.name}
-                            </a>
+                            </Link>
                         </li>
                     ))}
                 </ul>
@@ -85,16 +85,24 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
 
                     {isDropdownOpen && (
                         <div className="absolute bottom-full left-0 mb-3 w-full bg-primary border border-secondary/10 rounded-2xl shadow-2xl overflow-hidden py-2 animate-in fade-in slide-in-from-bottom-4 duration-200">
-                            <button className="w-full text-left px-6 py-4 text-secondary font-bold text-lg hover:bg-secondary/5 transition-colors">
+                            <Link
+                                to="/register-mentor"
+                                className="block w-full text-left px-6 py-4 text-secondary font-bold text-lg hover:bg-secondary/5 transition-colors"
+                                onClick={() => { setIsDropdownOpen(false); onClose(); }}
+                            >
                                 as a mentor
-                            </button>
-                            <button className="w-full text-left px-6 py-4 text-secondary font-bold text-lg hover:bg-secondary/5 transition-colors border-t border-secondary/5">
+                            </Link>
+                            <Link
+                                to="/register-mentee"
+                                className="block w-full text-left px-6 py-4 text-secondary font-bold text-lg hover:bg-secondary/5 transition-colors border-t border-secondary/5"
+                                onClick={() => { setIsDropdownOpen(false); onClose(); }}
+                            >
                                 as a mentee
-                            </button>
+                            </Link>
                         </div>
                     )}
                 </div>
-                <Link to="/sign-in" className="block w-full border-2 border-secondary text-secondary py-4 rounded-2xl font-bold text-xl hover:bg-secondary/5 transition-colors">
+                <Link to="/sign-in" onClick={onClose} className="text-center block w-full border-2 border-secondary text-secondary py-4 rounded-2xl font-bold text-xl hover:bg-secondary/5 transition-all">
                     Sign in
                 </Link>
             </div>

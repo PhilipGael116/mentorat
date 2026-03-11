@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 const Hero = () => {
     return (
         <section className="relative overflow-hidden bg-primary flex flex-col items-center justify-center pt-40 px-6 md:px-16 gap-7">
@@ -31,12 +33,12 @@ const Hero = () => {
             </p>
 
             <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4">
-                <button className="bg-secondary text-primary px-10 py-4 rounded-full font-bold hover:opacity-90 transition-all hover:scale-105">
+                <Link to="/register-mentee" className="bg-secondary text-primary px-10 py-4 rounded-full font-bold hover:opacity-90 transition-all hover:scale-105 inline-block">
                     Find a mentor
-                </button>
-                <button className="border-2 border-secondary text-secondary px-10 py-4 rounded-full font-bold hover:bg-secondary/5 transition-all">
+                </Link>
+                <Link to="/register-mentor" className="border-2 border-secondary text-secondary px-10 py-4 rounded-full font-bold hover:bg-secondary/5 transition-all inline-block">
                     Become a mentor
-                </button>
+                </Link>
             </div>
 
             <div className="flex items-center md:flex-row flex-col gap-4">
