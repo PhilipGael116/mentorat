@@ -34,7 +34,7 @@ const SideBar = () => {
     ]
 
     return (
-        <div className="lg:flex flex-col justify-between w-64 h-[calc(100vh-5rem)] py-12 px-8 font-heading mx-20 mt-10 rounded-2xl border-2 shadow-sm sticky top-10 hidden ">
+        <div className="lg:flex flex-col justify-between w-64 h-[calc(100vh-5rem)] py-12 px-8 font-heading mx-20 mt-10 rounded-2xl border-2 shadow-sm sticky top-10 hidden">
             <div className="flex flex-col gap-8">
                 {items.slice(0, 3).map((item) => {
                     const isActive = location.pathname === item.path;

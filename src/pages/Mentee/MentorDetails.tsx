@@ -75,23 +75,22 @@ const MentorDetails = () => {
         'bg-[#4ECDC4]', // Medium Turquoise
         'bg-[#45B7D1]', // Sky Blue
         'bg-[#96CEB4]', // Sage Green
-        'bg-[#FFEEAD]', // Cream Yellow
-        'bg-[#D4A5A5]', // Dusty Rose
-        'bg-[#9B59B6]', // Amethyst Purple
-        'bg-accent',    // Theme Accent
+        'bg-[#845EC2]', // Deep Purple
+        'bg-[#D65DB1]', // Pinkish Purple
+        'bg-[#FF9671]', // Coral
+        'bg-[#FFC75F]', // Mustard Yellow
+        'bg-[#00897B]', // Teal
+        'bg-[#0081CF]', // Bright Blue
+        'bg-[#2C73D2]', // Royal Blue
+        'bg-[#008F7A]', // Sea Green
     ];
 
     const getInitials = (name: string) => {
         return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
     };
 
-    const getAvatarColor = (name: string) => {
-        let hash = 0;
-        for (let i = 0; i < name.length; i++) {
-            hash = name.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const index = Math.abs(hash) % avatarColors.length;
-        return avatarColors[index];
+    const getAvatarColor = (id: number) => {
+        return avatarColors[id % avatarColors.length];
     };
 
     const mockReviews = [
@@ -104,7 +103,7 @@ const MentorDetails = () => {
             {/* Header Content (LinkedIn Style) */}
             <div className="rounded-3xl border border-gray-300 overflow-hidden mb-8">
                 {/* Banner */}
-                <div className={`h-48 w-full ${getAvatarColor(mentor.name)} opacity-80 relative`}>
+                <div className={`h-48 w-full ${getAvatarColor(mentor.id)} opacity-80 relative`}>
                     <img
                         src="/hero-blob.svg"
                         className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none"
@@ -115,7 +114,7 @@ const MentorDetails = () => {
                 <div className="px-5 sm:px-8 pb-8">
                     {/* Profile Image Overlap */}
                     <div className="relative flex flex-wrap justify-between items-end -mt-16 mb-6 gap-4">
-                        <div className={`w-28 h-28 sm:w-32 sm:h-32 rounded-full z-10 ${getAvatarColor(mentor.name)} flex items-center justify-center text-white text-3xl sm:text-4xl font-bold font-heading shadow-xl ring-4 ring-white`}>
+                        <div className={`w-28 h-28 sm:w-32 sm:h-32 rounded-full z-10 ${getAvatarColor(mentor.id)} flex items-center justify-center text-white text-3xl sm:text-4xl font-bold font-heading shadow-xl ring-4 ring-white`}>
                             {getInitials(mentor.name)}
                         </div>
                         <div className="flex gap-2 sm:gap-3 mb-2">

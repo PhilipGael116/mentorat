@@ -15,23 +15,22 @@ const MenteeDashBoard = () => {
         'bg-[#4ECDC4]', // Medium Turquoise
         'bg-[#45B7D1]', // Sky Blue
         'bg-[#96CEB4]', // Sage Green
-        'bg-[#FFEEAD]', // Cream Yellow
-        'bg-[#D4A5A5]', // Dusty Rose
-        'bg-[#9B59B6]', // Amethyst Purple
-        'bg-accent',    // Theme Accent
+        'bg-[#845EC2]', // Deep Purple
+        'bg-[#D65DB1]', // Pinkish Purple
+        'bg-[#FF9671]', // Coral
+        'bg-[#FFC75F]', // Mustard Yellow
+        'bg-[#00897B]', // Teal
+        'bg-[#0081CF]', // Bright Blue
+        'bg-[#2C73D2]', // Royal Blue
+        'bg-[#008F7A]', // Sea Green
     ];
 
     const getInitials = (name: string) => {
         return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
     };
 
-    const getAvatarColor = (name: string) => {
-        let hash = 0;
-        for (let i = 0; i < name.length; i++) {
-            hash = name.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const index = Math.abs(hash) % avatarColors.length;
-        return avatarColors[index];
+    const getAvatarColor = (id: number) => {
+        return avatarColors[id % avatarColors.length];
     };
 
     const mentors = [
@@ -108,22 +107,22 @@ const MenteeDashBoard = () => {
 
             {/* Mentors on the app */}
             <div className="mt-10 px-4 sm:px-10 pb-10 pt-4 border rounded-2xl border-gray-300">
-                <div className="flex justify-between items-center mb-10">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
                     <h2 className="text-2xl font-heading">Popular Mentors</h2>
-                    <Link to="/mentee/mentors" className="rounded-xl bg-secondary text-white p-2 px-6 text-sm font-semibold hover:opacity-90 transition-all">View all</Link>
+                    <Link to="/mentee/mentors" className="rounded-xl bg-secondary text-white p-2 px-6 text-sm font-semibold hover:opacity-90 transition-all w-fit">View all</Link>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {mentors.map((mentor) => (
                         <div key={mentor.id} className="relative rounded-3xl border border-gray-300 overflow-hidden min-w-[250px]">
                             {/* Banner Background */}
-                            <div className={`h-32 w-full ${getAvatarColor(mentor.name)} opacity-80`}></div>
+                            <div className={`h-32 w-full ${getAvatarColor(mentor.id)} opacity-80`}></div>
 
                             {/* Content Wrapper */}
                             <div className="p-6 pt-0">
                                 {/* Profile Part */}
                                 <div className="flex flex-col items-center text-center -mt-10">
-                                    <div className={`w-20 h-20 rounded-full z-10 ${getAvatarColor(mentor.name)} flex items-center justify-center text-white text-2xl font-bold font-heading mb-4 shadow-xl ring-4 ring-white`}>
+                                    <div className={`w-20 h-20 rounded-full z-10 ${getAvatarColor(mentor.id)} flex items-center justify-center text-white text-2xl font-bold font-heading mb-4 shadow-xl ring-4 ring-white`}>
                                         {getInitials(mentor.name)}
                                     </div>
                                     <h3 className="text-xl font-bold text-secondary font-heading">{mentor.name}</h3>
