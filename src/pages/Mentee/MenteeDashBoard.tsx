@@ -39,7 +39,7 @@ const MenteeDashBoard = () => {
             id: 1,
             name: "Philippe Gael",
             about: "Senior Fullstack Developer with 8+ years of experience in React and Node.js. Passionate about building scalable apps.",
-            students: 124,
+            students: 1,
             rating: 4.9,
             role: "Software Engineer"
         },
@@ -47,7 +47,7 @@ const MenteeDashBoard = () => {
             id: 2,
             name: "Sarah Johnson",
             about: "UI/UX Designer helping students master Figma and design thinking principles. Expert in mobile-first design.",
-            students: 85,
+            students: 8,
             rating: 4.8,
             role: "Product Designer"
         },
@@ -55,7 +55,7 @@ const MenteeDashBoard = () => {
             id: 3,
             name: "Dr. Robert Smith",
             about: "Data Scientist specialized in Machine Learning and AI. I help developers transition into AI roles.",
-            students: 210,
+            students: 21,
             rating: 5.0,
             role: "AI Researcher"
         },

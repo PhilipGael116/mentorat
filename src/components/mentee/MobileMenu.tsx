@@ -7,17 +7,17 @@ const MobileMenu = () => {
     const items = [
         {
             title: "Dashboard",
-            icon: <LayoutDashboard size={24} />,
+            icon: <LayoutDashboard size={20} />,
             path: "/mentee"
         },
         {
             title: "Mentors",
-            icon: <User size={24} />,
+            icon: <User size={20} />,
             path: "/mentee/mentors"
         },
         {
             title: "My Reviews",
-            icon: <MessageSquare size={24} />,
+            icon: <MessageSquare size={20} />,
             path: "/mentee/reviews"
         },
     ]

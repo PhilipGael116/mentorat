@@ -9,7 +9,7 @@ import MentorLayout from "./layouts/MentorLayout"
 import MenteeLayout from "./layouts/MenteeLayout"
 import { Students, DashBoard, Reviews } from "./pages/Mentor"
 import ProtectedRoute from "./utils/ProtectedRoute"
-import { MenteeDashBoard } from "./pages/Mentee"
+import { MenteeDashBoard, Mentors, MentorDetails } from "./pages/Mentee"
 
 const App = () => {
   return (
@@ -47,7 +47,8 @@ const App = () => {
           <Route element={<MenteeLayout />}>
             <Route path="/mentee">
               <Route index element={<MenteeDashBoard />} />
-              <Route path="mentors" element={<div>Find Mentors</div>} />
+              <Route path="mentors" element={<Mentors />} />
+              <Route path="mentors/:id" element={<MentorDetails />} />
               <Route path="reviews" element={<div>My Reviews</div>} />
             </Route>
           </Route>

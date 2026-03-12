@@ -4,14 +4,14 @@ import { Outlet } from 'react-router-dom'
 
 const MenteeLayout = () => {
     return (
-        <div className='flex'>
+        <div className='flex relative overflow-hidden'>
             <img
                 src="/hero-blob.svg"
-                className="absolute -top-40 -left-70 w-[400px] opacity-15 pointer-events-none select-none"
+                className="absolute -top-40 -left-60 w-[400px] opacity-15 pointer-events-none select-none z-0"
                 alt=""
             />
             <SideBar />
-            <div className='flex-1 pb-24 lg:pb-0'>
+            <div className='flex-1 pb-24 lg:pb-0 min-w-0 relative z-10'>
                 <Outlet />
             </div>
             <MobileMenu />
