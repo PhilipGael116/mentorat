@@ -81,7 +81,7 @@ const DashBoard = () => {
             <div className="mt-10 px-4 sm:px-10 pb-10 pt-4 border rounded-2xl border-gray-300">
                 <div className="flex justify-between items-center mb-8">
                     <h2 className="text-2xl font-heading">Recent Students</h2>
-                    <Link to="/students" className="rounded-xl bg-secondary text-white p-2 px-4 text-sm font-semibold flex items-center justify-center">View all</Link>
+                    <Link to="/mentor/students" className="rounded-xl bg-secondary text-white p-2 px-4 text-sm font-semibold flex items-center justify-center">View all</Link>
                 </div>
 
                 {/* Table Header (hidden on mobile) */}

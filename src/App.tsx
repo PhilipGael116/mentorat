@@ -6,6 +6,7 @@ import SignUp from "./components/Auth/signup-mentor/Signup"
 import RegistrationWizzard from "./components/Auth/signup-mentor/RegistrationWizzard"
 import SignUpMentee from "./components/Auth/signup-mentee/SignUpMentee"
 import MentorLayout from "./layouts/MentorLayout"
+import MenteeLayout from "./layouts/MenteeLayout"
 import { Students, DashBoard, Reviews } from "./pages/Mentor"
 import ProtectedRoute from "./utils/ProtectedRoute"
 
@@ -30,9 +31,24 @@ const App = () => {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route element={<MentorLayout />}>
-            <Route path="/mentor" element={<DashBoard />} />
-            <Route path="/students" element={<Students />} />
-            <Route path="/reviews" element={<Reviews />} />
+            <Route path="/mentor">
+              <Route index element={<DashBoard />} />
+              <Route path="students" element={<Students />} />
+              <Route path="reviews" element={<Reviews />} />
+            </Route>
+          </Route>
+        </Route>
+      </Routes>
+
+      {/* Mentee Routes */}
+      <Routes>
+        <Route element={<ProtectedRoute />}>
+          <Route element={<MenteeLayout />}>
+            <Route path="/mentee">
+              <Route index element={<div>Mentee Dashboard</div>} />
+              <Route path="mentors" element={<div>Find Mentors</div>} />
+              <Route path="reviews" element={<div>My Reviews</div>} />
+            </Route>
           </Route>
         </Route>
       </Routes>

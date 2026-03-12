@@ -14,17 +14,17 @@ const SideBar = () => {
         {
             title: "Dashboard",
             icon: <LayoutDashboard size={20} />,
-            path: "/mentor"
+            path: "/mentee"
         },
         {
-            title: "Students",
+            title: "Mentors",
             icon: <User size={20} />,
-            path: "/mentor/students"
+            path: "/mentee/mentors"
         },
         {
-            title: "Reviews",
+            title: "My Reviews",
             icon: <MessageSquare size={20} />,
-            path: "/mentor/reviews"
+            path: "/mentee/reviews"
         },
         {
             title: "Logout",

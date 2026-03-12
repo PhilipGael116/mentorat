@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from 'zod'
+import { useAuthStore } from "../../../store";
 
 const registrationSchema = z.object({
     fname: z.string().min(2, "First name must be at least 2 characters"),
@@ -11,6 +12,8 @@ const registrationSchema = z.object({
 })
 
 const SignUp = () => {
+    const navigate = useNavigate();
+    const setUser = useAuthStore((state) => state.setUser);
     const [formData, setFormData] = useState({
         fname: '',
         lname: '',
@@ -49,6 +52,9 @@ const SignUp = () => {
         // 3. If it succeeds, clear errors and proceed
         setErrors({});
         console.log("Form Submitted Successfully: ", result.data);
+
+        setUser(true);
+        navigate("/mentee");
 
         setFormData({
             fname: "",
