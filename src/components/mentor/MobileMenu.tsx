@@ -24,7 +24,7 @@ const MobileMenu = () => {
 
     return (
         <div className="lg:hidden fixed bottom-6 left-6 right-6 z-50">
-            <div className="bg-primary backdrop-blur-lg border border-gray-200 rounded-2xl shadow-xl px-12 py-4">
+            <div className="bg-primary backdrop-blur-lg border border-gray-200 rounded-2xl shadow-xl px-8 py-4">
                 <div className="flex justify-between items-center">
                     {items.map((item) => {
                         const isActive = location.pathname === item.path;

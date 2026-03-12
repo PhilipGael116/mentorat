@@ -61,14 +61,14 @@ const DashBoard = () => {
 
             {/* Stats */}
             <div className="flex flex-col sm:flex-row gap-10 mt-10">
-                <div className="p-10 rounded-2xl shadow-sm w-1/2 flex items-center justify-between bg-accent/7 sm:w-full">
+                <div className="p-10 rounded-2xl shadow-sm w-full flex items-center justify-between bg-accent/7">
                     <div>
                         <h2 className="lg:text-2xl text-xl font-heading">No. of Students</h2>
                         <p className="lg:text-4xl text-3xl font-heading mt-2">100</p>
                     </div>
                     <User size={30} className="w-7 h-7 flex items-center justify-center" />
                 </div>
-                <div className="p-10 rounded-2xl shadow-sm w-1/2 flex items-center justify-between bg-green-500/7 sm:w-full">
+                <div className="p-10 rounded-2xl shadow-sm w-full flex items-center justify-between bg-green-500/7">
                     <div>
                         <h2 className="lg:text-2xl  text-xl font-heading">Av. Rating</h2>
                         <p className="lg:text-4xl text-3xl font-heading mt-2">4.8</p>
