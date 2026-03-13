@@ -104,14 +104,14 @@ const MenteeDashBoard = () => {
                         <h2 className="lg:text-2xl text-xl font-heading text-secondary/80">My Mentors</h2>
                         <p className="lg:text-4xl text-3xl font-heading mt-2 text-secondary">{mentors.length}</p>
                     </div>
-                    <User size={30} className="w-8 h-8 text-accent" />
+                    <User size={30} className="w-8 h-8t" />
                 </div>
                 <div className="p-10 rounded-2xl shadow-sm w-full flex items-center justify-between bg-green-500/7">
                     <div>
                         <h2 className="lg:text-2xl text-xl font-heading text-secondary/80">My Reviews</h2>
                         <p className="lg:text-4xl text-3xl font-heading mt-2 text-secondary">3</p>
                     </div>
-                    <Star size={30} className="w-8 h-8 text-green-600" />
+                    <Star size={30} className="w-8 h-8" />
                 </div>
             </div>
 
