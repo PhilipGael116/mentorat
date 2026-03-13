@@ -10,26 +10,23 @@ import MenteeLayout from "./layouts/MenteeLayout"
 import { Students, DashBoard, Reviews } from "./pages/Mentor"
 import ProtectedRoute from "./utils/ProtectedRoute"
 import { MenteeDashBoard, Mentors, MentorDetails, MyReviews } from "./pages/Mentee"
+import NotFound from "./pages/NotFound"
 
 const App = () => {
   return (
     <div className="bg-primary min-h-screen">
       <Routes>
         <Route path="/" element={<Home />} index />
-      </Routes>
 
-      {/* Auth Routes */}
-      <Routes>
+        {/* Auth Routes */}
         <Route element={<AuthLayout />}>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/register-mentor" element={<SignUp />} />
           <Route path="/mentor-wizard" element={<RegistrationWizzard />} />
           <Route path="/register-mentee" element={<SignUpMentee />} />
         </Route>
-      </Routes>
 
-      {/* Mentor Routes */}
-      <Routes>
+        {/* Mentor Routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<MentorLayout />}>
             <Route path="/mentor">
@@ -39,10 +36,8 @@ const App = () => {
             </Route>
           </Route>
         </Route>
-      </Routes>
 
-      {/* Mentee Routes */}
-      <Routes>
+        {/* Mentee Routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<MenteeLayout />}>
             <Route path="/mentee">
@@ -53,6 +48,9 @@ const App = () => {
             </Route>
           </Route>
         </Route>
+
+        {/* Not Found Route */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   )
