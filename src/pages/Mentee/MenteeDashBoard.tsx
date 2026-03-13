@@ -5,6 +5,16 @@ import { Link } from 'react-router-dom'
 
 const MenteeDashBoard = () => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [joinedMentorIds, setJoinedMentorIds] = useState<number[]>([]);
+
+    const handleJoin = (mentorId: number) => {
+        setJoinedMentorIds((prev) =>
+            prev.includes(mentorId)
+                ? prev.filter((id) => id !== mentorId)
+                : [...prev, mentorId]
+        );
+    }
+
     const setUser = useAuthStore((state) => state.setUser);
     const logout = () => {
         setUser(false);
@@ -147,11 +157,18 @@ const MenteeDashBoard = () => {
 
                                 {/* Actions */}
                                 <div className="grid grid-cols-2 gap-3">
-                                    <button className="py-2.5 rounded-xl border-2 border-secondary/10 text-secondary font-bold text-sm hover:bg-secondary/5 transition-colors">
+                                    <Link to={`/mentee/mentors/${mentor.id}`} className="py-2.5 rounded-xl border-2 border-secondary/10 text-secondary font-bold text-sm hover:bg-secondary/5 transition-colors flex justify-center items-center">
                                         View Profile
-                                    </button>
-                                    <button className="py-2.5 rounded-xl bg-secondary text-white font-bold text-sm hover:opacity-90 transition-all shadow-sm shadow-accent/20">
-                                        Join
+                                    </Link>
+                                    <button 
+                                        onClick={() => handleJoin(mentor.id)} 
+                                        className={`py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm flex justify-center items-center ${
+                                            joinedMentorIds.includes(mentor.id) 
+                                            ? "bg-gray-100 text-secondary border border-gray-200" 
+                                            : "bg-secondary text-white hover:opacity-90 shadow-accent/20"
+                                        }`}
+                                    >
+                                        {joinedMentorIds.includes(mentor.id) ? "Joined" : "Join"}
                                     </button>
                                 </div>
                             </div>

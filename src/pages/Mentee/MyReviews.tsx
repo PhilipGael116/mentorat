@@ -4,6 +4,25 @@ import { useState } from 'react'
 const MyReviews = () => {
     const [activeFilter, setActiveFilter] = useState("All");
 
+    const avatarColors = [
+        'bg-[#FF6B6B]',
+        'bg-[#4ECDC4]',
+        'bg-[#45B7D1]',
+        'bg-[#96CEB4]',
+        'bg-[#845EC2]',
+        'bg-[#D65DB1]',
+        'bg-[#FF9671]',
+        'bg-[#FFC75F]',
+        'bg-[#00897B]',
+        'bg-[#0081CF]',
+        'bg-[#2C73D2]',
+        'bg-[#008F7A]',
+    ];
+
+    const getAvatarColor = (id: number) => {
+        return avatarColors[id % avatarColors.length];
+    };
+
     const mockMyReviews = [
         {
             id: 1,
@@ -46,8 +65,7 @@ const MyReviews = () => {
     return (
         <div className='sm:mx-20 sm:my-10 mx-4 my-5'>
             <header className="mb-12">
-                <h1 className='text-3xl font-bold text-secondary font-heading mb-1'>My Reviews</h1>
-                <p className='text-gray-500 font-medium'>All the feedback you've left for your mentors</p>
+                <h1 className='text-2xl sm:text-3xl lg:text-4xl font-heading'>My Reviews</h1>
             </header>
 
             {/* Stats Summary Section */}
@@ -88,7 +106,7 @@ const MyReviews = () => {
                     <div key={r.id} className='border border-gray-300 rounded-3xl p-6 sm:p-8 flex flex-col h-full overflow-hidden'>
                         <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
                             <div className='flex items-center gap-4 min-w-0 flex-1'>
-                                <div className='w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-secondary shrink-0 flex items-center justify-center text-white text-lg sm:text-xl font-bold font-heading'>
+                                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full ${getAvatarColor(r.id)} shrink-0 flex items-center justify-center text-white text-lg sm:text-xl font-bold font-heading`}>
                                     {r.mentorName.charAt(0)}
                                 </div>
                                 <div className="min-w-0">
