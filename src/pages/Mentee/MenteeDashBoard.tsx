@@ -150,7 +150,7 @@ const MenteeDashBoard = () => {
                                         <span className="text-sm font-semibold">{mentor.students} <span className="font-normal text-xs uppercase">Students</span></span>
                                     </div>
                                     <div className="flex items-center gap-2 text-gray-500">
-                                        <Star size={16} className="text-yellow-500 fill-yellow-500" />
+                                        <Star size={16} className="text-accent fill-accent" />
                                         <span className="text-sm font-semibold">{mentor.rating} <span className="font-normal text-xs uppercase">Rating</span></span>
                                     </div>
                                 </div>
@@ -160,13 +160,12 @@ const MenteeDashBoard = () => {
                                     <Link to={`/mentee/mentors/${mentor.id}`} className="py-2.5 rounded-xl border-2 border-secondary/10 text-secondary font-bold text-sm hover:bg-secondary/5 transition-colors flex justify-center items-center">
                                         View Profile
                                     </Link>
-                                    <button 
-                                        onClick={() => handleJoin(mentor.id)} 
-                                        className={`py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm flex justify-center items-center ${
-                                            joinedMentorIds.includes(mentor.id) 
-                                            ? "bg-gray-100 text-secondary border border-gray-200" 
+                                    <button
+                                        onClick={() => handleJoin(mentor.id)}
+                                        className={`py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm flex justify-center items-center ${joinedMentorIds.includes(mentor.id)
+                                            ? "bg-gray-100 text-secondary border border-gray-200"
                                             : "bg-secondary text-white hover:opacity-90 shadow-accent/20"
-                                        }`}
+                                            }`}
                                     >
                                         {joinedMentorIds.includes(mentor.id) ? "Joined" : "Join"}
                                     </button>
