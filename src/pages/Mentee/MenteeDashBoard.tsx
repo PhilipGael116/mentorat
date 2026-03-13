@@ -91,7 +91,7 @@ const MenteeDashBoard = () => {
             <div className="flex flex-col sm:flex-row gap-10 mt-10">
                 <div className="p-10 rounded-2xl shadow-sm w-full flex items-center justify-between bg-accent/7">
                     <div>
-                        <h2 className="lg:text-2xl text-xl font-heading text-secondary/80">Active Mentors</h2>
+                        <h2 className="lg:text-2xl text-xl font-heading text-secondary/80">My Mentors</h2>
                         <p className="lg:text-4xl text-3xl font-heading mt-2 text-secondary">{mentors.length}</p>
                     </div>
                     <User size={30} className="w-8 h-8 text-accent" />

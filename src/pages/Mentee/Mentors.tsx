@@ -6,10 +6,14 @@ import { Link } from "react-router-dom"
 const Mentors = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [isProfileOpen, setIsProfileOpen] = useState(false);
-    const [join, setJoin] = useState(false);
+    const [joinedMentorIds, setJoinedMentorIds] = useState<number[]>([]);
 
-    const handleJoin = () => {
-        setJoin((prevState) => !prevState)
+    const handleJoin = (mentorId: number) => {
+        setJoinedMentorIds((prev) =>
+            prev.includes(mentorId)
+                ? prev.filter((id) => id !== mentorId)
+                : [...prev, mentorId]
+        );
     }
 
     const setUser = useAuthStore((state) => state.setUser);
@@ -167,7 +171,7 @@ const Mentors = () => {
                                     <span className="text-sm font-semibold">{mentor.students} <span className="font-normal text-xs uppercase">Students</span></span>
                                 </div>
                                 <div className="flex items-center gap-2 text-gray-500">
-                                    <Star size={16} className="text-yellow-500 fill-yellow-500" />
+                                    <Star size={16} className="text-accent fill-accent" />
                                     <span className="text-sm font-semibold">{mentor.rating} <span className="font-normal text-xs uppercase">Rating</span></span>
                                 </div>
                             </div>
@@ -177,10 +181,15 @@ const Mentors = () => {
                                 <Link to={`/mentee/mentors/${mentor.id}`} className="py-2.5 rounded-xl border-2 border-secondary/10 text-secondary font-bold text-sm hover:bg-secondary/5 transition-colors flex items-center justify-center">
                                     View Profile
                                 </Link>
-                                <button onClick={handleJoin} className="py-2.5 rounded-xl bg-secondary text-white font-bold text-sm hover:opacity-90 transition-all shadow-sm shadow-accent/20">
-                                    {
-                                        join ? "Unjoin" : "Join"
-                                    }
+                                <button 
+                                    onClick={() => handleJoin(mentor.id)} 
+                                    className={`py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm ${
+                                        joinedMentorIds.includes(mentor.id) 
+                                        ? "bg-gray-100 text-secondary border border-gray-200" 
+                                        : "bg-secondary text-white hover:opacity-90 shadow-accent/20"
+                                    }`}
+                                >
+                                    {joinedMentorIds.includes(mentor.id) ? "Joined" : "Join"}
                                 </button>
                             </div>
                         </div>

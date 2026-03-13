@@ -37,7 +37,10 @@ const SideBar = () => {
         <div className="lg:flex flex-col justify-between w-64 h-[calc(100vh-5rem)] py-12 px-8 font-heading mx-20 mt-10 rounded-2xl border-2 shadow-sm sticky top-10 hidden">
             <div className="flex flex-col gap-8">
                 {items.slice(0, 3).map((item) => {
-                    const isActive = location.pathname === item.path;
+                    const isActive = item.path === '/mentee' 
+                        ? location.pathname === item.path 
+                        : location.pathname.startsWith(item.path);
+
                     return (
                         <Link
                             to={item.path}
@@ -51,7 +54,7 @@ const SideBar = () => {
                 })}
             </div>
 
-            <div onClick={logout} key={items[3].title} className="flex gap-4 items-center cursor-pointer hover:text-red-500 transition-colors pt-10 border-t border-gray-300">
+            <div onClick={logout} className="flex gap-4 items-center cursor-pointer hover:text-red-500 transition-colors pt-10 border-t border-gray-300">
                 {items[3].icon}
                 <span className="font-semibold">{items[3].title}</span>
             </div>

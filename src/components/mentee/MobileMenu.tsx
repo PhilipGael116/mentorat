@@ -27,7 +27,9 @@ const MobileMenu = () => {
             <div className="bg-primary backdrop-blur-lg border border-gray-200 rounded-2xl shadow-xl px-8 py-4">
                 <div className="flex justify-between items-center">
                     {items.map((item) => {
-                        const isActive = location.pathname === item.path;
+                        const isActive = item.path === '/mentee' 
+                            ? location.pathname === item.path 
+                            : location.pathname.startsWith(item.path);
 
                         return (
                             <Link

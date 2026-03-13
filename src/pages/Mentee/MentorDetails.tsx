@@ -98,6 +98,13 @@ const MentorDetails = () => {
         { id: 2, user: "John D.", text: "Very patient and explains complex topics simply.", rating: 4, date: "1 week ago" }
     ];
 
+    const handleSendReview = () => {
+        console.log(review);
+        console.log(rating);
+        setReview("");
+        setRating(0);
+    }
+
     return (
         <div className='sm:mx-20 sm:my-10 mx-4 my-5 overflow-x-hidden'>
             {/* Header Content (LinkedIn Style) */}
@@ -185,7 +192,7 @@ const MentorDetails = () => {
                             <h4 className="text-accent font-bold mb-2 uppercase tracking-wider text-[10px] sm:text-xs">Total Rating</h4>
                             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                                 <span className="text-3xl sm:text-4xl font-bold text-secondary font-heading">{mentor.rating}</span>
-                                <div className="flex items-center gap-1 text-yellow-500">
+                                <div className="flex items-center gap-1 text-accent">
                                     <Star fill="currentColor" size={18} className="sm:w-5 sm:h-5" />
                                     <Star fill="currentColor" size={18} className="sm:w-5 sm:h-5" />
                                     <Star fill="currentColor" size={18} className="sm:w-5 sm:h-5" />
@@ -207,7 +214,7 @@ const MentorDetails = () => {
                                 <button
                                     key={star}
                                     onClick={() => setRating(star)}
-                                    className={`${rating >= star ? 'text-yellow-500' : 'text-gray-300'} hover:scale-110 transition-transform`}
+                                    className={`${rating >= star ? 'text-accent' : 'text-gray-300'} hover:scale-110 transition-transform`}
                                 >
                                     <Star fill={rating >= star ? "currentColor" : "none"} size={24} />
                                 </button>
@@ -219,7 +226,7 @@ const MentorDetails = () => {
                             value={review}
                             onChange={(e) => setReview(e.target.value)}
                         />
-                        <button className="w-full py-3.5 rounded-2xl bg-accent text-white font-bold text-sm hover:opacity-90 transition-all shadow-sm shadow-accent/20 flex items-center justify-center gap-2">
+                        <button onClick={handleSendReview} className="w-full py-3.5 rounded-2xl bg-accent text-white font-bold text-sm hover:opacity-90 transition-all shadow-sm shadow-accent/20 flex items-center justify-center gap-2">
                             <Send size={16} />
                             Post Review
                         </button>
@@ -235,7 +242,7 @@ const MentorDetails = () => {
                                         <p className="font-bold text-secondary text-sm">{r.user}</p>
                                         <p className="text-gray-400 text-xs">{r.date}</p>
                                     </div>
-                                    <div className="flex text-yellow-500 mb-2">
+                                    <div className="flex text-accent mb-2">
                                         {[...Array(r.rating)].map((_, i) => <Star key={i} fill="currentColor" size={12} />)}
                                     </div>
                                     <p className="text-gray-600 text-sm line-clamp-3">"{r.text}"</p>
