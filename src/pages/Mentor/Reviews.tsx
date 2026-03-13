@@ -132,7 +132,7 @@ const Reviews = () => {
                                 </div>
 
                                 {/* Comment */}
-                                <div className="text-gray-600 italic sm:line-clamp-2 sm:pr-6">
+                                <div className="text-gray-600 sm:line-clamp-2 sm:pr-6">
                                     <span className="sm:hidden text-gray-400 text-sm not-italic block mb-1">Comment: </span>
                                     "{review.comment}"
                                 </div>
@@ -141,7 +141,7 @@ const Reviews = () => {
                                 <div className="flex items-center sm:justify-end gap-1">
                                     <span className="sm:hidden text-gray-400 text-sm mr-2">Rating: </span>
                                     <span className="font-heading font-bold text-gray-900">{review.rating}</span>
-                                    <Star size={16} className="text-yellow-400 fill-yellow-400" />
+                                    <Star size={16} className="text-accent fill-accent" />
                                 </div>
                             </div>
                         ))
