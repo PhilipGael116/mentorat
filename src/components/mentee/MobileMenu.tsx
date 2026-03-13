@@ -23,12 +23,12 @@ const MobileMenu = () => {
     ]
 
     return (
-        <div className="lg:hidden fixed bottom-6 left-6 right-6 z-50">
-            <div className="bg-primary backdrop-blur-lg border border-gray-200 rounded-2xl shadow-xl px-8 py-4">
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50">
+            <div className="bg-primary backdrop-blur-lg border border-gray-300 rounded-tl-2xl rounded-tr-2xl shadow-xl px-8 py-4">
                 <div className="flex justify-between items-center">
                     {items.map((item) => {
-                        const isActive = item.path === '/mentee' 
-                            ? location.pathname === item.path 
+                        const isActive = item.path === '/mentee'
+                            ? location.pathname === item.path
                             : location.pathname.startsWith(item.path);
 
                         return (
