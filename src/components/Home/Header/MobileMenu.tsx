@@ -1,6 +1,7 @@
 import { X, ChevronDown } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface MobileMenuProps {
     isOpen: boolean;
@@ -10,11 +11,12 @@ interface MobileMenuProps {
 const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const { t } = useTranslation();
 
     const navLinks = [
-        { name: 'Find a Mentor', href: '/register-mentee' },
-        { name: 'Become a Mentor', href: '/register-mentor' },
-        { name: 'Resources', href: '#' },
+        { nameKey: 'header.links.findMentor', href: '/register-mentee' },
+        { nameKey: 'header.links.becomeMentor', href: '/register-mentor' },
+        { nameKey: 'header.links.resources', href: '#' },
     ];
 
     useEffect(() => {
@@ -57,13 +59,13 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
             <nav className="flex-1">
                 <ul className="flex flex-col gap-6">
                     {navLinks.map((link) => (
-                        <li key={link.name}>
+                        <li key={link.nameKey}>
                             <Link
                                 to={link.href}
                                 onClick={onClose}
                                 className="text-4xl font-semibold text-secondary hover:text-accent transition-colors block"
                             >
-                                {link.name}
+                                {t(link.nameKey)}
                             </Link>
                         </li>
                     ))}
@@ -76,7 +78,7 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                         className="w-full bg-secondary text-primary py-4 rounded-2xl font-bold text-xl hover:opacity-90 transition-all flex items-center justify-center gap-3"
                     >
-                        Join
+                        {t('header.join')}
                         <ChevronDown
                             size={24}
                             className={`transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
@@ -90,20 +92,20 @@ const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
                                 className="block w-full text-left px-6 py-4 text-secondary font-bold text-lg hover:bg-secondary/5 transition-colors"
                                 onClick={() => { setIsDropdownOpen(false); onClose(); }}
                             >
-                                as a mentor
+                                {t('header.asMentor')}
                             </Link>
                             <Link
                                 to="/register-mentee"
                                 className="block w-full text-left px-6 py-4 text-secondary font-bold text-lg hover:bg-secondary/5 transition-colors border-t border-secondary/5"
                                 onClick={() => { setIsDropdownOpen(false); onClose(); }}
                             >
-                                as a mentee
+                                {t('header.asMentee')}
                             </Link>
                         </div>
                     )}
                 </div>
                 <Link to="/sign-in" onClick={onClose} className="text-center block w-full border-2 border-secondary text-secondary py-4 rounded-2xl font-bold text-xl hover:bg-secondary/5 transition-all">
-                    Sign in
+                    {t('header.signIn')}
                 </Link>
             </div>
         </div>

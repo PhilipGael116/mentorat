@@ -1,9 +1,11 @@
 import { useState } from "react"
 import { Star, User, LogOut } from "lucide-react"
+import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 import { useAuthStore } from "../../store"
 
 const DashBoard = () => {
+    const { t } = useTranslation()
     const setUser = useAuthStore((state) => state.setUser);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
 
@@ -35,7 +37,7 @@ const DashBoard = () => {
     return (
         <div className="sm:mx-20 sm:my-10 mx-6 my-5">
             <div className="flex justify-between items-center relative">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-heading">Welcome, Philippe</h1>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-heading">{t('mentorDashboard.welcome', { name: 'Philippe' })}</h1>
 
                 <div className="relative">
                     <button
@@ -52,7 +54,7 @@ const DashBoard = () => {
                                 className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-red-50 hover:text-red-500 transition-colors"
                             >
                                 <LogOut size={18} />
-                                Logout
+                                {t('mentorDashboard.logout')}
                             </button>
                         </div>
                     )}
@@ -63,14 +65,14 @@ const DashBoard = () => {
             <div className="flex flex-col sm:flex-row gap-10 mt-10">
                 <div className="p-10 rounded-2xl shadow-sm w-full flex items-center justify-between bg-accent/7">
                     <div>
-                        <h2 className="lg:text-2xl text-xl font-heading">No. of Students</h2>
+                        <h2 className="lg:text-2xl text-xl font-heading">{t('mentorDashboard.stats.students')}</h2>
                         <p className="lg:text-4xl text-3xl font-heading mt-2">100</p>
                     </div>
                     <User size={30} className="w-7 h-7 flex items-center justify-center" />
                 </div>
                 <div className="p-10 rounded-2xl shadow-sm w-full flex items-center justify-between bg-green-500/7">
                     <div>
-                        <h2 className="lg:text-2xl  text-xl font-heading">Av. Rating</h2>
+                        <h2 className="lg:text-2xl  text-xl font-heading">{t('mentorDashboard.stats.rating')}</h2>
                         <p className="lg:text-4xl text-3xl font-heading mt-2">4.8</p>
                     </div>
                     <Star size={30} className="w-7 h-7 flex items-center justify-center" />
@@ -80,15 +82,15 @@ const DashBoard = () => {
             {/* Recent Students */}
             <div className="mt-10 px-4 sm:px-10 pb-10 pt-4 border rounded-2xl border-gray-300">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
-                    <h2 className="text-2xl font-heading">Recent Students</h2>
-                    <Link to="/mentor/students" className="rounded-xl bg-secondary text-white p-2 px-6 text-sm font-semibold hover:opacity-90 transition-all w-fit">View all</Link>
+                    <h2 className="text-2xl font-heading">{t('mentorDashboard.recentStudents.title')}</h2>
+                    <Link to="/mentor/students" className="rounded-xl bg-secondary text-white p-2 px-6 text-sm font-semibold hover:opacity-90 transition-all w-fit">{t('mentorDashboard.recentStudents.viewAll')}</Link>
                 </div>
 
                 {/* Table Header (hidden on mobile) */}
                 <div className="hidden sm:grid sm:grid-cols-[80px_1fr_1fr] border-b border-gray-200 pb-4 mb-6 text-gray-400 font-semibold uppercase text-xs tracking-wider">
-                    <div>No.</div>
-                    <div>Name</div>
-                    <div className="text-right">Date Joined</div>
+                    <div>{t('mentorDashboard.recentStudents.tableHeaders.no')}</div>
+                    <div>{t('mentorDashboard.recentStudents.tableHeaders.name')}</div>
+                    <div className="text-right">{t('mentorDashboard.recentStudents.tableHeaders.dateJoined')}</div>
                 </div>
 
                 {/* Student Rows */}
@@ -100,7 +102,7 @@ const DashBoard = () => {
                         >
                             {/* Number */}
                             <div className="font-heading text-lg">
-                                <span className="sm:hidden text-gray-400 text-sm">No: </span>
+                                <span className="sm:hidden text-gray-400 text-sm">{t('mentorDashboard.recentStudents.mobileLabels.no')}</span>
                                 {index + 1}
                             </div>
 
@@ -114,7 +116,7 @@ const DashBoard = () => {
 
                             {/* Date Joined */}
                             <div className="sm:text-right font-medium text-gray-600">
-                                <span className="sm:hidden text-gray-400 text-sm">Joined: </span>
+                                <span className="sm:hidden text-gray-400 text-sm">{t('mentorDashboard.recentStudents.mobileLabels.joined')}</span>
                                 {student.dateJoined}
                             </div>
                         </div>

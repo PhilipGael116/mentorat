@@ -2,8 +2,10 @@ import { User, Star, Search, LogOut } from "lucide-react"
 import { useState } from "react"
 import { useAuthStore } from "../../store"
 import { Link } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 
 const Mentors = () => {
+    const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState("");
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [joinedMentorIds, setJoinedMentorIds] = useState<number[]>([]);
@@ -107,7 +109,7 @@ const Mentors = () => {
         <div className="sm:mx-20 sm:my-10 mx-6 my-5">
             <div className="flex flex-col gap-8 mb-10">
                 <div className="flex justify-between items-center relative gap-4">
-                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-heading">Find Your Mentor</h1>
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-heading">{t('mentorsPage.title')}</h1>
 
                     <div className="relative">
                         <button
@@ -124,7 +126,7 @@ const Mentors = () => {
                                     className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-red-50 hover:text-red-500 transition-colors"
                                 >
                                     <LogOut size={18} />
-                                    Logout
+                                    {t('menteeDashboard.logout')}
                                 </button>
                             </div>
                         )}
@@ -135,7 +137,7 @@ const Mentors = () => {
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                     <input
                         type="text"
-                        placeholder="Search by name, role or skills..."
+                        placeholder={t('mentorsPage.searchPlaceholder')}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-gray-200 focus:outline-none focus:border-accent shadow-sm transition-all font-sans"
@@ -168,18 +170,18 @@ const Mentors = () => {
                             <div className="flex justify-center gap-6 mb-8 py-4 border-y border-gray-100">
                                 <div className="flex items-center gap-2 text-gray-500">
                                     <User size={16} className="text-secondary/40" />
-                                    <span className="text-sm font-semibold">{mentor.students} <span className="font-normal text-xs uppercase">Students</span></span>
+                                    <span className="text-sm font-semibold">{mentor.students} <span className="font-normal text-xs uppercase">{t('mentorsPage.card.students')}</span></span>
                                 </div>
                                 <div className="flex items-center gap-2 text-gray-500">
                                     <Star size={16} className="text-accent fill-accent" />
-                                    <span className="text-sm font-semibold">{mentor.rating} <span className="font-normal text-xs uppercase">Rating</span></span>
+                                    <span className="text-sm font-semibold">{mentor.rating} <span className="font-normal text-xs uppercase">{t('mentorsPage.card.rating')}</span></span>
                                 </div>
                             </div>
 
                             {/* Actions */}
                             <div className="grid grid-cols-2 gap-3">
                                 <Link to={`/mentee/mentors/${mentor.id}`} className="py-2.5 rounded-xl border-2 border-secondary/10 text-secondary font-bold text-sm hover:bg-secondary/5 transition-colors flex items-center justify-center">
-                                    View Profile
+                                    {t('mentorsPage.card.viewProfile')}
                                 </Link>
                                 <button 
                                     onClick={() => handleJoin(mentor.id)} 
@@ -189,7 +191,7 @@ const Mentors = () => {
                                         : "bg-secondary text-white hover:opacity-90 shadow-accent/20"
                                     }`}
                                 >
-                                    {joinedMentorIds.includes(mentor.id) ? "Joined" : "Join"}
+                                    {joinedMentorIds.includes(mentor.id) ? t('mentorsPage.card.joined') : t('mentorsPage.card.join')}
                                 </button>
                             </div>
                         </div>
@@ -199,7 +201,7 @@ const Mentors = () => {
 
             {filteredMentors.length === 0 && (
                 <div className="text-center py-20">
-                    <p className="text-gray-500 text-lg">No mentors found matching your search.</p>
+                    <p className="text-gray-500 text-lg">{t('mentorsPage.noMentorsFound')}</p>
                 </div>
             )}
         </div>

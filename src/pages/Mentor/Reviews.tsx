@@ -1,8 +1,10 @@
 import { useState, useMemo } from "react";
 import { Filter, Star } from "lucide-react";
 import { FaSortAmountDown, FaSortAmountUp } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const Reviews = () => {
+    const { t } = useTranslation();
     // 1. Storage of original data
     const reviewsData = [
         {
@@ -77,7 +79,7 @@ const Reviews = () => {
             <div className="mt-10 px-4 sm:px-10 pb-10 pt-4 border rounded-2xl border-gray-300 shadow-sm">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                     <div>
-                        <h2 className="text-2xl font-heading">Recent Reviews</h2>
+                        <h2 className="text-2xl font-heading">{t('mentorReviews.title')}</h2>
                     </div>
 
                     <div className="flex flex-wrap gap-4 items-center">
@@ -87,7 +89,7 @@ const Reviews = () => {
                             className={`flex gap-2 items-center px-4 py-2 rounded-xl transition-all border ${sortOrder === 'asc' ? 'bg-accent/10 border-accent/20 text-accent' : 'border-gray-100 text-gray-600'}`}
                         >
                             {sortOrder === "desc" ? <FaSortAmountDown /> : <FaSortAmountUp />}
-                            <span className="text-sm font-semibold">Rating: {sortOrder === "desc" ? "High to Low" : "Low to High"}</span>
+                            <span className="text-sm font-semibold">{sortOrder === "desc" ? t('mentorReviews.sort.highToLow') : t('mentorReviews.sort.lowToHigh')}</span>
                         </button>
 
                         {/* Filter Button */}
@@ -97,7 +99,7 @@ const Reviews = () => {
                         >
                             <Filter size={16} />
                             <span className="text-sm font-semibold">
-                                {filterLevel === 0 ? "Filter: All" : filterLevel === 5 ? "Filter: 5 Stars" : "Filter: 4+ Stars"}
+                                {filterLevel === 0 ? t('mentorReviews.filter.all') : filterLevel === 5 ? t('mentorReviews.filter.fiveStars') : t('mentorReviews.filter.fourPlusStars')}
                             </span>
                         </button>
                     </div>
@@ -105,10 +107,10 @@ const Reviews = () => {
 
                 {/* Table Header (hidden on mobile) */}
                 <div className="hidden sm:grid sm:grid-cols-[80px_200px_1fr_100px] border-b border-gray-200 pb-4 mb-6 text-gray-400 font-semibold uppercase text-xs tracking-wider">
-                    <div>No.</div>
-                    <div>Name</div>
-                    <div>Review</div>
-                    <div className="text-right">Rating</div>
+                    <div>{t('mentorReviews.tableHeaders.no')}</div>
+                    <div>{t('mentorReviews.tableHeaders.name')}</div>
+                    <div>{t('mentorReviews.tableHeaders.review')}</div>
+                    <div className="text-right">{t('mentorReviews.tableHeaders.rating')}</div>
                 </div>
 
                 {/* Review Rows */}
@@ -121,7 +123,7 @@ const Reviews = () => {
                             >
                                 {/* Number */}
                                 <div className="font-heading text-lg text-gray-400">
-                                    <span className="sm:hidden text-gray-400 text-sm">No: </span>
+                                    <span className="sm:hidden text-gray-400 text-sm">{t('mentorReviews.mobileLabels.no')}</span>
                                     {index + 1}
                                 </div>
 
@@ -133,13 +135,13 @@ const Reviews = () => {
 
                                 {/* Comment */}
                                 <div className="text-gray-600 sm:line-clamp-2 sm:pr-6">
-                                    <span className="sm:hidden text-gray-400 text-sm not-italic block mb-1">Comment: </span>
+                                    <span className="sm:hidden text-gray-400 text-sm not-italic block mb-1">{t('mentorReviews.mobileLabels.comment')}</span>
                                     "{review.comment}"
                                 </div>
 
                                 {/* Rating */}
                                 <div className="flex items-center sm:justify-end gap-1">
-                                    <span className="sm:hidden text-gray-400 text-sm mr-2">Rating: </span>
+                                    <span className="sm:hidden text-gray-400 text-sm mr-2">{t('mentorReviews.mobileLabels.rating')}</span>
                                     <span className="font-heading font-bold text-gray-900">{review.rating}</span>
                                     <Star size={16} className="text-accent fill-accent" />
                                 </div>
@@ -148,8 +150,8 @@ const Reviews = () => {
                     ) : (
                         <div className="flex flex-col items-center justify-center py-20 text-gray-400">
                             <Star size={40} className="mb-4 opacity-20" />
-                            <p className="font-heading text-lg">No reviews match your filter</p>
-                            <button onClick={() => setFilterLevel(0)} className="text-accent underline mt-2 text-sm">Clear all filters</button>
+                            <p className="font-heading text-lg">{t('mentorReviews.emptyState.message')}</p>
+                            <button onClick={() => setFilterLevel(0)} className="text-accent underline mt-2 text-sm">{t('mentorReviews.emptyState.clearFilter')}</button>
                         </div>
                     )}
                 </div>

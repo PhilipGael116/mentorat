@@ -2,8 +2,10 @@ import { User, LogOut, Star } from 'lucide-react'
 import { useState } from 'react'
 import { useAuthStore } from '../../store'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const MenteeDashBoard = () => {
+    const { t } = useTranslation()
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [joinedMentorIds, setJoinedMentorIds] = useState<number[]>([]);
 
@@ -73,7 +75,7 @@ const MenteeDashBoard = () => {
     return (
         <div className="sm:mx-20 sm:my-10 mx-6 my-5">
             <div className="flex justify-between items-center relative gap-4">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-heading">Welcome, Philippe</h1>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-heading">{t('menteeDashboard.welcome', { name: 'Philippe' })}</h1>
 
                 <div className="relative">
                     <button
@@ -90,7 +92,7 @@ const MenteeDashBoard = () => {
                                 className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-red-50 hover:text-red-500 transition-colors"
                             >
                                 <LogOut size={18} />
-                                Logout
+                                {t('menteeDashboard.logout')}
                             </button>
                         </div>
                     )}
@@ -101,14 +103,14 @@ const MenteeDashBoard = () => {
             <div className="flex flex-col sm:flex-row gap-10 mt-10">
                 <div className="p-10 rounded-2xl shadow-sm w-full flex items-center justify-between bg-accent/7">
                     <div>
-                        <h2 className="lg:text-2xl text-xl font-heading text-secondary/80">My Mentors</h2>
+                        <h2 className="lg:text-2xl text-xl font-heading text-secondary/80">{t('menteeDashboard.stats.mentors')}</h2>
                         <p className="lg:text-4xl text-3xl font-heading mt-2 text-secondary">{mentors.length}</p>
                     </div>
                     <User size={30} className="w-8 h-8t" />
                 </div>
                 <div className="p-10 rounded-2xl shadow-sm w-full flex items-center justify-between bg-green-500/7">
                     <div>
-                        <h2 className="lg:text-2xl text-xl font-heading text-secondary/80">My Reviews</h2>
+                        <h2 className="lg:text-2xl text-xl font-heading text-secondary/80">{t('menteeDashboard.stats.reviews')}</h2>
                         <p className="lg:text-4xl text-3xl font-heading mt-2 text-secondary">3</p>
                     </div>
                     <Star size={30} className="w-8 h-8" />
@@ -118,8 +120,8 @@ const MenteeDashBoard = () => {
             {/* Mentors on the app */}
             <div className="mt-10 px-4 sm:px-10 pb-10 pt-4 border rounded-2xl border-gray-300">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
-                    <h2 className="text-2xl font-heading">Popular Mentors</h2>
-                    <Link to="/mentee/mentors" className="rounded-xl bg-secondary text-white p-2 px-6 text-sm font-semibold hover:opacity-90 transition-all w-fit">View all</Link>
+                    <h2 className="text-2xl font-heading">{t('menteeDashboard.popularMentors')}</h2>
+                    <Link to="/mentee/mentors" className="rounded-xl bg-secondary text-white p-2 px-6 text-sm font-semibold hover:opacity-90 transition-all w-fit">{t('mentorDashboard.recentStudents.viewAll')}</Link>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -147,18 +149,18 @@ const MenteeDashBoard = () => {
                                 <div className="flex justify-center gap-6 mb-8 py-4 border-y border-gray-100">
                                     <div className="flex items-center gap-2 text-gray-500">
                                         <User size={16} className="text-secondary/40" />
-                                        <span className="text-sm font-semibold">{mentor.students} <span className="font-normal text-xs uppercase">Students</span></span>
+                                        <span className="text-sm font-semibold">{mentor.students} <span className="font-normal text-xs uppercase">{t('mentorsPage.card.students')}</span></span>
                                     </div>
                                     <div className="flex items-center gap-2 text-gray-500">
                                         <Star size={16} className="text-accent fill-accent" />
-                                        <span className="text-sm font-semibold">{mentor.rating} <span className="font-normal text-xs uppercase">Rating</span></span>
+                                        <span className="text-sm font-semibold">{mentor.rating} <span className="font-normal text-xs uppercase">{t('mentorsPage.card.rating')}</span></span>
                                     </div>
                                 </div>
 
                                 {/* Actions */}
                                 <div className="grid grid-cols-2 gap-3">
                                     <Link to={`/mentee/mentors/${mentor.id}`} className="py-2.5 rounded-xl border-2 border-secondary/10 text-secondary font-bold text-sm hover:bg-secondary/5 transition-colors flex justify-center items-center">
-                                        View Profile
+                                        {t('mentorsPage.card.viewProfile')}
                                     </Link>
                                     <button
                                         onClick={() => handleJoin(mentor.id)}
@@ -167,7 +169,7 @@ const MenteeDashBoard = () => {
                                             : "bg-secondary text-white hover:opacity-90 shadow-accent/20"
                                             }`}
                                     >
-                                        {joinedMentorIds.includes(mentor.id) ? "Joined" : "Join"}
+                                        {joinedMentorIds.includes(mentor.id) ? t('mentorsPage.card.joined') : t('mentorsPage.card.join')}
                                     </button>
                                 </div>
                             </div>

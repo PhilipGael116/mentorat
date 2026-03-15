@@ -1,8 +1,10 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { Star, MapPin, Calendar, MessageSquare, Send, StarHalf } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const MentorDetails = () => {
+    const { t } = useTranslation();
     const { id } = useParams();
     const navigate = useNavigate();
     const [review, setReview] = useState("");
@@ -59,12 +61,12 @@ const MentorDetails = () => {
     if (!mentor) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh]">
-                <h2 className="text-2xl font-bold text-secondary mb-4">Mentor not found</h2>
+                <h2 className="text-2xl font-bold text-secondary mb-4">{t('mentorDetails.notFound')}</h2>
                 <button
                     onClick={() => navigate('/mentee/mentors')}
                     className="text-accent underline"
                 >
-                    Back to mentors
+                    {t('mentorDetails.back')}
                 </button>
             </div>
         );
@@ -126,11 +128,11 @@ const MentorDetails = () => {
                         </div>
                         <div className="flex gap-2 sm:gap-3 mb-2">
                             <button className="px-5 sm:px-8 py-2.5 rounded-full bg-secondary text-white font-bold hover:bg-secondary/90 transition-all flex items-center gap-2 whitespace-nowrap text-sm sm:text-base">
-                                Join
+                                {t('mentorDetails.join')}
                             </button>
                             <button className="px-5 sm:px-8 py-2.5 rounded-full border-2 border-secondary text-secondary font-bold hover:bg-secondary/5 transition-all flex items-center gap-2 whitespace-nowrap text-sm sm:text-base">
                                 <MessageSquare size={18} />
-                                Contact
+                                {t('mentorDetails.contact')}
                             </button>
                         </div>
                     </div>
@@ -147,7 +149,7 @@ const MentorDetails = () => {
                                     <span>{mentor.location}</span>
                                 </div>
                                 <div className="flex items-center gap-1.5 border-l pl-4 border-gray-300">
-                                    <span className="font-bold text-accent">{mentor.students} students</span>
+                                    <span className="font-bold text-accent">{mentor.students} {t('mentorDetails.students')}</span>
                                 </div>
                             </div>
                         </div>
@@ -155,7 +157,7 @@ const MentorDetails = () => {
                         <div className="lg:col-span-4 lg:text-right flex flex-col items-start lg:items-end justify-center font-sans">
                             <div className="flex items-center gap-2">
                                 <Calendar className="text-gray-400" size={20} />
-                                <span className="text-gray-500 text-sm">Joined {mentor.joinedDate}</span>
+                                <span className="text-gray-500 text-sm">{t('mentorDetails.joined')}{mentor.joinedDate}</span>
                             </div>
                         </div>
                     </div>
@@ -168,13 +170,13 @@ const MentorDetails = () => {
                 <div className="lg:col-span-6 space-y-8">
                     {/* About Section */}
                     <div className=" rounded-3xl border border-gray-200 p-8">
-                        <h2 className="text-2xl font-bold text-secondary font-heading mb-6">About</h2>
+                        <h2 className="text-2xl font-bold text-secondary font-heading mb-6">{t('mentorDetails.about')}</h2>
                         <p className="text-gray-600 leading-relaxed whitespace-pre-line">
                             {mentor.about}
                         </p>
 
                         <div className="mt-8">
-                            <h3 className="text-lg font-bold text-secondary mb-4">Education</h3>
+                            <h3 className="text-lg font-bold text-secondary mb-4">{t('mentorDetails.education')}</h3>
                             <div className="flex flex-wrap gap-3">
                                 {mentor.education.map((edu, i) => (
                                     <div key={i} className="flex flex-col p-4 rounded-2xl border border-gray-300 min-w-[200px]">
@@ -189,7 +191,7 @@ const MentorDetails = () => {
                     {/* Stats Highlights */}
                     <div className="grid grid-cols-1 gap-4">
                         <div className="rounded-3xl p-6 border border-gray-300 w-full min-w-fit">
-                            <h4 className="text-accent font-bold mb-2 uppercase tracking-wider text-[10px] sm:text-xs">Total Rating</h4>
+                            <h4 className="text-accent font-bold mb-2 uppercase tracking-wider text-[10px] sm:text-xs">{t('mentorDetails.totalRating')}</h4>
                             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                                 <span className="text-3xl sm:text-4xl font-bold text-secondary font-heading">{mentor.rating}</span>
                                 <div className="flex items-center gap-1 text-accent">
@@ -208,7 +210,7 @@ const MentorDetails = () => {
                 <div className="lg:col-span-6 space-y-8">
                     {/* Writing Review */}
                     <div className=" rounded-3xl border border-gray-200 p-6">
-                        <h2 className="text-xl font-bold text-secondary font-heading mb-4">Write a Review</h2>
+                        <h2 className="text-xl font-bold text-secondary font-heading mb-4">{t('mentorDetails.writeReview.title')}</h2>
                         <div className="flex gap-1 mb-4">
                             {[1, 2, 3, 4, 5].map((star) => (
                                 <button
@@ -222,19 +224,19 @@ const MentorDetails = () => {
                         </div>
                         <textarea
                             className="w-full rounded-2xl border-gray-200 border p-4 text-sm focus:border-accent focus:ring-1 focus:ring-accent outline-none min-h-[120px] mb-4 font-sans font-medium"
-                            placeholder="Share your experience with this mentor..."
+                            placeholder={t('mentorDetails.writeReview.placeholder')}
                             value={review}
                             onChange={(e) => setReview(e.target.value)}
                         />
                         <button onClick={handleSendReview} className="w-full py-3.5 rounded-2xl bg-accent text-white font-bold text-sm hover:opacity-90 transition-all shadow-sm shadow-accent/20 flex items-center justify-center gap-2">
                             <Send size={16} />
-                            Post Review
+                            {t('mentorDetails.writeReview.post')}
                         </button>
                     </div>
 
                     {/* Community Reviews List */}
                     <div className=" rounded-3xl border border-gray-200 p-6 shadow-sm">
-                        <h2 className="text-xl text-secondary font-heading mb-6">Recent Reviews</h2>
+                        <h2 className="text-xl text-secondary font-heading mb-6">{t('mentorDetails.recentReviews')}</h2>
                         <div className="space-y-6">
                             {mockReviews.map((r) => (
                                 <div key={r.id} className="border-b last:border-0 pb-6 last:pb-0 font-sans">

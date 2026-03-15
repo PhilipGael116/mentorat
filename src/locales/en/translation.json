@@ -1,0 +1,194 @@
+{
+    "header": {
+        "logo": "wimentor",
+        "links": {
+            "findMentor": "Find a Mentor",
+            "becomeMentor": "Become a Mentor",
+            "resources": "Resources"
+        },
+        "join": "Join",
+        "asMentor": "as a mentor",
+        "asMentee": "as a mentee",
+        "signIn": "Sign in"
+    },
+    "hero": {
+        "title": {
+            "part1": "The right ",
+            "mentor": "mentor",
+            "part2": " exists for you"
+        },
+        "description": "Whatever you're building, learning or working through, <br class=\"hidden md:block\" /> there's someone here who's already done it. <br class=\"hidden md:block\" /> Find your expert and start today.",
+        "buttons": {
+            "find": "Find a mentor",
+            "become": "Become a mentor"
+        }
+    },
+    "auth": {
+        "createAccount": "Create Account",
+        "joinToday": "Join us today and get started",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "emailAddress": "Email Address",
+        "phoneNumber": "Phone Number",
+        "password": "Password",
+        "alreadyHaveAccount": "Already have an account? ",
+        "login": "Login",
+        "welcomeBack": "Welcome Back",
+        "signInToContinue": "Sign in to continue to your account",
+        "goToHome": "Go to Home",
+        "dontHaveAccount": "Don't have an account? ",
+        "register": "Register",
+        "signIn": "Sign In"
+    },
+    "wizard": {
+        "step": "Step",
+        "back": "Back",
+        "nextStep": "Next Step",
+        "letsGo": "Let's Go!",
+        "yes": "Yes",
+        "no": "No",
+        "series": {
+            "science": "Science",
+            "arts": "Arts",
+            "technical": "Technical",
+            "commercial": "Commercial"
+        },
+        "welcome": {
+            "title": "Account Created!",
+            "description": "Welcome to the WiMentor family. To provide you with the best experience,",
+            "highlight": "we just want to know more about you."
+        },
+        "oLevel": {
+            "title": "GCE Ordinary Level",
+            "question": "Do you have your O-Level?",
+            "seriesQuestion": "Which series did you take?"
+        },
+        "aLevel": {
+            "title": "GCE Advanced Level",
+            "question": "Do you have your A-Level?",
+            "seriesQuestion": "Which series did you take?"
+        },
+        "professional": {
+            "statusLabel": "What is your current status?",
+            "statusPlaceholder": "e.g. Software Engineer at Google",
+            "locationLabel": "Your Location",
+            "locationPlaceholder": "e.g. Douala, Cameroon",
+            "detectLocation": "Detect current location",
+            "experienceLabel": "Briefly describe your experience",
+            "experiencePlaceholder": "I have been working in the tech industry for..."
+        }
+    },
+    "mentorDashboard": {
+        "welcome": "Welcome, {{name}}",
+        "logout": "Logout",
+        "stats": {
+            "students": "No. of Students",
+            "rating": "Av. Rating"
+        },
+        "recentStudents": {
+            "title": "Recent Students",
+            "viewAll": "View all",
+            "tableHeaders": {
+                "no": "No.",
+                "name": "Name",
+                "dateJoined": "Date Joined"
+            },
+            "mobileLabels": {
+                "no": "No: ",
+                "joined": "Joined: "
+            }
+        }
+    },
+    "mentorSidebar": {
+        "dashboard": "Dashboard",
+        "students": "Students",
+        "reviews": "Reviews",
+        "logout": "Logout"
+    },
+    "mentorReviews": {
+        "title": "Recent Reviews",
+        "sort": {
+            "highToLow": "Rating: High to Low",
+            "lowToHigh": "Rating: Low to High"
+        },
+        "filter": {
+            "all": "Filter: All",
+            "fiveStars": "Filter: 5 Stars",
+            "fourPlusStars": "Filter: 4+ Stars"
+        },
+        "tableHeaders": {
+            "no": "No.",
+            "name": "Name",
+            "review": "Review",
+            "rating": "Rating"
+        },
+        "mobileLabels": {
+            "no": "No: ",
+            "comment": "Comment: ",
+            "rating": "Rating: "
+        },
+        "emptyState": {
+            "message": "No reviews match your filter",
+            "clearFilter": "Clear all filters"
+        }
+    },
+    "menteeSidebar": {
+        "dashboard": "Dashboard",
+        "mentors": "Mentors",
+        "reviews": "My Reviews",
+        "logout": "Logout"
+    },
+    "menteeDashboard": {
+        "welcome": "Welcome, {{name}}",
+        "logout": "Logout",
+        "stats": {
+            "mentors": "My Mentors",
+            "reviews": "My Reviews"
+        },
+        "popularMentors": "Popular Mentors"
+    },
+    "mentorsPage": {
+        "title": "Find Your Mentor",
+        "searchPlaceholder": "Search by name, role or skills...",
+        "noMentorsFound": "No mentors found matching your search.",
+        "card": {
+            "students": "Students",
+            "rating": "Rating",
+            "viewProfile": "View Profile",
+            "join": "Join",
+            "joined": "Joined"
+        }
+    },
+    "myReviews": {
+        "title": "My Reviews",
+        "stats": {
+            "total": "Total reviews",
+            "avg": "Avg. rating given",
+            "mentors": "Mentors reviewed"
+        },
+        "filters": {
+            "all": "All",
+            "five": "5 stars",
+            "four": "4 stars",
+            "three": "3 stars"
+        },
+        "emptyState": "No reviews found for this rating."
+    },
+    "mentorDetails": {
+        "notFound": "Mentor not found",
+        "back": "Back to mentors",
+        "join": "Join",
+        "contact": "Contact",
+        "students": "students",
+        "joined": "Joined ",
+        "about": "About",
+        "education": "Education",
+        "totalRating": "Total Rating",
+        "writeReview": {
+            "title": "Write a Review",
+            "placeholder": "Share your experience with this mentor...",
+            "post": "Post Review"
+        },
+        "recentReviews": "Recent Reviews"
+    }
+}

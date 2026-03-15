@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { z } from "zod";
 import { useMultiStepRegister } from "./useMultiStepRegister";
 import { ChevronRight, ChevronLeft, MapPin, Loader2 } from "lucide-react";
@@ -23,6 +24,7 @@ const step4Schema = z.object({
 
 const RegistrationWizzard = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const setUser = useAuthStore((state) => state.setUser);
     const [formData, setFormData] = useState({
         hasOLevel: true,
@@ -118,20 +120,20 @@ const RegistrationWizzard = () => {
                     </svg>
                 </div>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900">Account Created!</h2>
+            <h2 className="text-3xl font-bold text-gray-900">{t('wizard.welcome.title')}</h2>
             <p className="text-gray-600 text-lg">
-                Welcome to the WiMentor family. To provide you with the best experience,
-                <span className="block font-semibold mt-2 text-gray-800">we just want to know more about you.</span>
+                {t('wizard.welcome.description')}
+                <span className="block font-semibold mt-2 text-gray-800">{t('wizard.welcome.highlight')}</span>
             </p>
         </div>,
 
         // Step 1: Ordinary Level
         <div key="step1" className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
             <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">GCE Ordinary Level</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">{t('wizard.oLevel.title')}</h3>
                 <div className="space-y-4">
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium text-gray-700">Do you have your O-Level?</label>
+                        <label className="text-sm font-medium text-gray-700">{t('wizard.oLevel.question')}</label>
                         <div className="flex gap-4">
                             {['Yes', 'No'].map(val => (
                                 <button
@@ -140,7 +142,7 @@ const RegistrationWizzard = () => {
                                     onClick={() => updateFields({ hasOLevel: val === 'Yes' })}
                                     className={`flex-1 py-3 px-4 rounded-xl border-2 transition-all ${formData.hasOLevel === (val === 'Yes') ? 'border-accent bg-accent/5 text-accent font-bold' : 'border-gray-200 text-gray-500 hover:border-gray-400'}`}
                                 >
-                                    {val}
+                                    {val === 'Yes' ? t('wizard.yes') : t('wizard.no')}
                                 </button>
                             ))}
                         </div>
@@ -148,7 +150,7 @@ const RegistrationWizzard = () => {
 
                     {formData.hasOLevel && (
                         <div className="flex flex-col gap-2">
-                            <label className="text-sm font-medium text-gray-700">Which series did you take?</label>
+                            <label className="text-sm font-medium text-gray-700">{t('wizard.oLevel.seriesQuestion')}</label>
                             <div className="grid grid-cols-2 gap-3">
                                 {['Science', 'Arts', 'Technical', 'Commercial'].map(series => (
                                     <button
@@ -157,7 +159,7 @@ const RegistrationWizzard = () => {
                                         onClick={() => updateFields({ oLevelSeries: series })}
                                         className={`py-3 px-4 rounded-xl border-2 transition-all text-sm font-medium ${formData.oLevelSeries === series ? 'border-accent bg-accent/5 text-accent font-bold' : 'border-gray-200 text-gray-500 hover:border-gray-400'}`}
                                     >
-                                        {series}
+                                        {t(`wizard.series.${series.toLowerCase()}`)}
                                     </button>
                                 ))}
                             </div>
@@ -171,10 +173,10 @@ const RegistrationWizzard = () => {
         // Step 2: Advanced Level
         <div key="step2" className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
             <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">GCE Advanced Level</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">{t('wizard.aLevel.title')}</h3>
                 <div className="space-y-4">
                     <div className="flex flex-col gap-2">
-                        <label className="text-sm font-medium text-gray-700">Do you have your A-Level?</label>
+                        <label className="text-sm font-medium text-gray-700">{t('wizard.aLevel.question')}</label>
                         <div className="flex gap-4">
                             {['Yes', 'No'].map(val => (
                                 <button
@@ -183,7 +185,7 @@ const RegistrationWizzard = () => {
                                     onClick={() => updateFields({ hasALevel: val === 'Yes' })}
                                     className={`flex-1 py-3 px-4 rounded-xl border-2 transition-all ${formData.hasALevel === (val === 'Yes') ? 'border-accent bg-accent/5 text-accent font-bold' : 'border-gray-200 text-gray-500 hover:border-gray-400'}`}
                                 >
-                                    {val}
+                                    {val === 'Yes' ? t('wizard.yes') : t('wizard.no')}
                                 </button>
                             ))}
                         </div>
@@ -191,7 +193,7 @@ const RegistrationWizzard = () => {
 
                     {formData.hasALevel && (
                         <div className="flex flex-col gap-2">
-                            <label className="text-sm font-medium text-gray-700">Which series did you take?</label>
+                            <label className="text-sm font-medium text-gray-700">{t('wizard.aLevel.seriesQuestion')}</label>
                             <div className="grid grid-cols-2 gap-3">
                                 {['Science', 'Arts', 'Technical', 'Commercial'].map(series => (
                                     <button
@@ -200,7 +202,7 @@ const RegistrationWizzard = () => {
                                         onClick={() => updateFields({ aLevelSeries: series })}
                                         className={`py-3 px-4 rounded-xl border-2 transition-all text-sm font-medium ${formData.aLevelSeries === series ? 'border-accent bg-accent/5 text-accent font-bold' : 'border-gray-200 text-gray-500 hover:border-gray-400'}`}
                                     >
-                                        {series}
+                                        {t(`wizard.series.${series.toLowerCase()}`)}
                                     </button>
                                 ))}
                             </div>
@@ -215,31 +217,31 @@ const RegistrationWizzard = () => {
         <div key="step3" className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
             <div className="space-y-4">
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700 mb-1.5">What is your current status?</label>
+                    <label className="text-sm font-medium text-gray-700 mb-1.5">{t('wizard.professional.statusLabel')}</label>
                     <input
                         type="text"
                         value={formData.currentStatus}
                         onChange={e => updateFields({ currentStatus: e.target.value })}
-                        placeholder="e.g. Software Engineer at Google"
+                        placeholder={t('wizard.professional.statusPlaceholder')}
                         className={`px-4 py-3 border-2 rounded-xl focus:outline-none transition-all ${errors.currentStatus ? "border-red-500 focus:ring-red-500" : "border-gray-200 focus:ring-accent"}`}
                     />
                     {errors.currentStatus && <p className="text-red-500 text-xs mt-1 font-medium">{errors.currentStatus}</p>}
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700 mb-1.5">Your Location</label>
+                    <label className="text-sm font-medium text-gray-700 mb-1.5">{t('wizard.professional.locationLabel')}</label>
                     <div className="relative">
                         <input
                             type="text"
                             value={formData.location}
                             onChange={e => updateFields({ location: e.target.value })}
-                            placeholder="e.g. Douala, Cameroon"
+                            placeholder={t('wizard.professional.locationPlaceholder')}
                             className={`w-full px-4 py-3 pl-11 border-2 rounded-xl focus:outline-none transition-all ${errors.location ? "border-red-500 focus:ring-red-500" : "border-gray-200 focus:ring-accent"}`}
                         />
                         <button
                             type="button"
                             onClick={detectLocation}
                             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-accent transition-colors"
-                            title="Detect current location"
+                            title={t('wizard.professional.detectLocation')}
                         >
                             {isDetectingLocation ? (
                                 <Loader2 size={20} className="animate-spin text-accent" />
@@ -251,11 +253,11 @@ const RegistrationWizzard = () => {
                     {errors.location && <p className="text-red-500 text-xs mt-1 font-medium">{errors.location}</p>}
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700 mb-1.5">Briefly describe your experience</label>
+                    <label className="text-sm font-medium text-gray-700 mb-1.5">{t('wizard.professional.experienceLabel')}</label>
                     <textarea
                         value={formData.experience}
                         onChange={e => updateFields({ experience: e.target.value })}
-                        placeholder="I have been working in the tech industry for..."
+                        placeholder={t('wizard.professional.experiencePlaceholder')}
                         className={`px-4 py-3 border-2 rounded-xl focus:outline-none transition-all h-28 ${errors.experience ? "border-red-500 focus:ring-red-500" : "border-gray-200 focus:ring-accent"}`}
                     />
                     {errors.experience && <p className="text-red-500 text-xs mt-1 font-medium">{errors.experience}</p>}
@@ -291,7 +293,7 @@ const RegistrationWizzard = () => {
                 {/* Progress bar */}
                 <div className="mb-10">
                     <div className="flex justify-between items-center mb-4">
-                        <span className="text-xs font-bold text-gray-400 tracking-wider uppercase">Step</span>
+                        <span className="text-xs font-bold text-gray-400 tracking-wider uppercase">{t('wizard.step')}</span>
                         <span className="text-xs font-bold text-accent uppercase tracking-wider">{currentStepIndex + 1} / {steps.length}</span>
                     </div>
                     <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
@@ -313,7 +315,7 @@ const RegistrationWizzard = () => {
                             className="flex items-center gap-2 text-gray-500 font-bold hover:text-gray-800 transition-colors"
                         >
                             <ChevronLeft size={20} />
-                            Back
+                            {t('wizard.back')}
                         </button>
                     ) : (
                         <div />
@@ -323,7 +325,7 @@ const RegistrationWizzard = () => {
                         onClick={handleNext}
                         className="bg-accent text-white font-bold py-4 px-10 rounded-2xl hover:bg-accent/70 transition-all duration-300 flex items-center gap-3"
                     >
-                        {isLastStep ? "Let's Go!" : "Next Step"}
+                        {isLastStep ? t('wizard.letsGo') : t('wizard.nextStep')}
                         {!isLastStep && <ChevronRight size={20} />}
                     </button>
                 </div>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { z } from 'zod'
 
 const registrationSchema = z.object({
@@ -12,6 +13,7 @@ const registrationSchema = z.object({
 
 const SignUp = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const [formData, setFormData] = useState({
         fname: '',
@@ -61,8 +63,8 @@ const SignUp = () => {
             <div className="w-full max-w-md">
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">Create Account</h1>
-                    <p className="text-gray-600">Join us today and get started</p>
+                    <h1 className="text-4xl font-bold text-gray-900 mb-2 font-heading">{t('auth.createAccount')}</h1>
+                    <p className="text-gray-600">{t('auth.joinToday')}</p>
                 </div>
 
                 {/* Form */}
@@ -71,7 +73,7 @@ const SignUp = () => {
                     <div className="grid grid-cols-2 gap-4">
                         <div className="flex flex-col">
                             <label htmlFor="fname" className="text-sm font-medium text-gray-700 mb-1.5">
-                                First Name
+                                {t('auth.firstName')}
                             </label>
                             <input
                                 type="text"
@@ -91,7 +93,7 @@ const SignUp = () => {
                         </div>
                         <div className="flex flex-col">
                             <label htmlFor="lname" className="text-sm font-medium text-gray-700 mb-1.5">
-                                Last Name
+                                {t('auth.lastName')}
                             </label>
                             <input
                                 type="text"
@@ -114,7 +116,7 @@ const SignUp = () => {
                     {/* Email Field */}
                     <div className="flex flex-col">
                         <label htmlFor="email" className="text-sm font-medium text-gray-700 mb-1.5">
-                            Email Address
+                            {t('auth.emailAddress')}
                         </label>
                         <input
                             type="email"
@@ -136,7 +138,7 @@ const SignUp = () => {
                     {/* Phone Field */}
                     <div className="flex flex-col">
                         <label htmlFor="phone" className="text-sm font-medium text-gray-700 mb-1.5">
-                            Phone Number
+                            {t('auth.phoneNumber')}
                         </label>
                         <div className={`flex items-center border rounded-lg overflow-hidden transition-all focus-within:ring-2 ${errors.phone
                             ? "border-red-500 focus-within:ring-red-500"
@@ -163,7 +165,7 @@ const SignUp = () => {
                     {/* Password Field */}
                     <div className="flex flex-col">
                         <label htmlFor="password" className="text-sm font-medium text-gray-700 mb-1.5">
-                            Password
+                            {t('auth.password')}
                         </label>
                         <input
                             type="password"
@@ -187,15 +189,15 @@ const SignUp = () => {
                         type="submit"
                         className="w-full bg-accent text-white font-semibold py-3 rounded-lg hover:bg-accent/70 transition-colors duration-200 shadow-sm"
                     >
-                        Create Account
+                        {t('auth.createAccount')}
                     </button>
 
                     {/* Login Link */}
                     <div className="text-center pt-2">
                         <p className="text-gray-600">
-                            Already have an account?{' '}
+                            {t('auth.alreadyHaveAccount')}
                             <Link to="/sign-in" className="text-accent font-semibold hover:underline">
-                                Login
+                                {t('auth.login')}
                             </Link>
                         </p>
                     </div>

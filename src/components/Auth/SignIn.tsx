@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import { z } from 'zod'
 import { useAuthStore } from "../../store"
 
@@ -11,6 +12,7 @@ const userSchema = z.object({
 })
 
 const SignIn = () => {
+    const { t } = useTranslation();
     const setUser = useAuthStore((state) => state.setUser);
 
     const [formData, setFormData] = useState({
@@ -63,8 +65,8 @@ const SignIn = () => {
             <div className="w-full max-w-md">
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-5xl font-bold mb-2 font-heading">Welcome Back</h1>
-                    <p>Sign in to continue to your account</p>
+                    <h1 className="text-5xl font-bold mb-2 font-heading">{t('auth.welcomeBack')}</h1>
+                    <p>{t('auth.signInToContinue')}</p>
                 </div>
 
                 {/* Form */}
@@ -72,7 +74,7 @@ const SignIn = () => {
                     {/* Email Field */}
                     <div className="flex flex-col">
                         <label htmlFor="email" className="text-sm font-medium text-gray-700 mb-1.5">
-                            Email Address
+                            {t('auth.emailAddress')}
                         </label>
                         <input
                             type="email"
@@ -94,7 +96,7 @@ const SignIn = () => {
                     {/* Password Field */}
                     <div className="flex flex-col">
                         <label htmlFor="password" className="text-sm font-medium text-gray-700 mb-1.5">
-                            Password
+                            {t('auth.password')}
                         </label>
                         <input
                             type="password"
@@ -118,11 +120,11 @@ const SignIn = () => {
                         type="submit"
                         className="w-full bg-accent text-white font-semibold py-3 rounded-lg hover:bg-accent/70 transition-colors duration-200 shadow-sm"
                     >
-                        Sign In
+                        {t('auth.signIn')}
                     </button>
 
                     <div className="flex items-center justify-between">
-                        <Link to="/" className="text-secondary hover:text-accent font-medium transition-colors" >Go to Home </Link>
+                        <Link to="/" className="text-secondary hover:text-accent font-medium transition-colors" >{t('auth.goToHome')} </Link>
 
                         {/* Register Link with Dropdown */}
                         <div
@@ -131,9 +133,9 @@ const SignIn = () => {
                             onMouseLeave={() => setIsHovered(false)}
                         >
                             <p className="text-gray-600">
-                                Don't have an account?{' '}
+                                {t('auth.dontHaveAccount')}
                                 <span className="text-accent font-semibold hover:underline cursor-pointer inline-flex items-center gap-1 align-baseline">
-                                    Register
+                                    {t('auth.register')}
                                     <ChevronRight size={16} className={`transition-transform duration-200 ${isHovered ? 'rotate-90' : ''}`} />
                                 </span>
                             </p>
@@ -143,10 +145,10 @@ const SignIn = () => {
                                 <div className="absolute bottom-full right-0 pb-3 z-10">
                                     <div className="w-48 bg-white border border-gray-100 rounded-2xl shadow-xl overflow-hidden py-2 animate-in fade-in slide-in-from-bottom-2 duration-200">
                                         <Link to="/register-mentor" className="block w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-accent/5 hover:text-accent transition-colors">
-                                            as a mentor
+                                            {t('header.asMentor')}
                                         </Link>
                                         <Link to="/register-mentee" className="block w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-accent/5 hover:text-accent transition-colors border-t border-gray-50">
-                                            as a mentee
+                                            {t('header.asMentee')}
                                         </Link>
                                     </div>
                                 </div>

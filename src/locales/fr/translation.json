@@ -1,0 +1,194 @@
+{
+    "header": {
+        "logo": "wimentor",
+        "links": {
+            "findMentor": "Trouver un mentor",
+            "becomeMentor": "Devenir mentor",
+            "resources": "Ressources"
+        },
+        "join": "Rejoindre",
+        "asMentor": "en tant que mentor",
+        "asMentee": "en tant que mentoré",
+        "signIn": "Se connecter"
+    },
+    "hero": {
+        "title": {
+            "part1": "Le bon ",
+            "mentor": "mentor",
+            "part2": " existe pour vous"
+        },
+        "description": "Peu importe ce que vous construisez, apprenez ou traversez, <br class=\"hidden md:block\" /> il y a quelqu'un ici qui l'a déjà fait. <br class=\"hidden md:block\" /> Trouvez votre expert et commencez dès aujourd'hui.",
+        "buttons": {
+            "find": "Trouver un mentor",
+            "become": "Devenir mentor"
+        }
+    },
+    "auth": {
+        "createAccount": "Créer un compte",
+        "joinToday": "Rejoignez-nous aujourd'hui et commencez",
+        "firstName": "Prénom",
+        "lastName": "Nom",
+        "emailAddress": "Adresse e-mail",
+        "phoneNumber": "Numéro de téléphone",
+        "password": "Mot de passe",
+        "alreadyHaveAccount": "Vous avez déjà un compte ? ",
+        "login": "Connexion",
+        "welcomeBack": "Bon retour",
+        "signInToContinue": "Connectez-vous pour continuer vers votre compte",
+        "goToHome": "Aller à l'accueil",
+        "dontHaveAccount": "Vous n'avez pas de compte ? ",
+        "register": "S'inscrire",
+        "signIn": "Se connecter"
+    },
+    "wizard": {
+        "step": "Étape",
+        "back": "Retour",
+        "nextStep": "Étape suivante",
+        "letsGo": "C'est parti !",
+        "yes": "Oui",
+        "no": "Non",
+        "series": {
+            "science": "Sciences",
+            "arts": "Lettres",
+            "technical": "Technique",
+            "commercial": "Commercial"
+        },
+        "welcome": {
+            "title": "Compte créé !",
+            "description": "Bienvenue dans la famille WiMentor. Pour vous offrir la meilleure expérience possible,",
+            "highlight": "nous voulons juste en savoir un peu plus sur vous."
+        },
+        "oLevel": {
+            "title": "BEPC / Probatoire",
+            "question": "Avez-vous votre diplôme ?",
+            "seriesQuestion": "Quelle série avez-vous faite ?"
+        },
+        "aLevel": {
+            "title": "Baccalauréat",
+            "question": "Avez-vous votre Baccalauréat ?",
+            "seriesQuestion": "Quelle série avez-vous faite ?"
+        },
+        "professional": {
+            "statusLabel": "Quel est votre statut actuel ?",
+            "statusPlaceholder": "ex: Ingénieur Logiciel chez Google",
+            "locationLabel": "Votre localisation",
+            "locationPlaceholder": "ex: Douala, Cameroun",
+            "detectLocation": "Détecter la localisation actuelle",
+            "experienceLabel": "Décrivez brièvement votre expérience",
+            "experiencePlaceholder": "Je travaille dans l'industrie technologique depuis..."
+        }
+    },
+    "mentorDashboard": {
+        "welcome": "Bienvenue, {{name}}",
+        "logout": "Déconnexion",
+        "stats": {
+            "students": "Nbre. d'Étudiants",
+            "rating": "Note moy."
+        },
+        "recentStudents": {
+            "title": "Étudiants Récents",
+            "viewAll": "Voir tout",
+            "tableHeaders": {
+                "no": "N°",
+                "name": "Nom",
+                "dateJoined": "Date d'Inscription"
+            },
+            "mobileLabels": {
+                "no": "N° : ",
+                "joined": "Inscrit : "
+            }
+        }
+    },
+    "mentorSidebar": {
+        "dashboard": "Tableau de bord",
+        "students": "Étudiants",
+        "reviews": "Avis",
+        "logout": "Déconnexion"
+    },
+    "mentorReviews": {
+        "title": "Avis Récents",
+        "sort": {
+            "highToLow": "Note : Élevée à Faible",
+            "lowToHigh": "Note : Faible à Élevée"
+        },
+        "filter": {
+            "all": "Filtre : Tous",
+            "fiveStars": "Filtre : 5 Étoiles",
+            "fourPlusStars": "Filtre : 4+ Étoiles"
+        },
+        "tableHeaders": {
+            "no": "N°",
+            "name": "Nom",
+            "review": "Avis",
+            "rating": "Note"
+        },
+        "mobileLabels": {
+            "no": "N° : ",
+            "comment": "Commentaire : ",
+            "rating": "Note : "
+        },
+        "emptyState": {
+            "message": "Aucun avis ne correspond à votre filtre",
+            "clearFilter": "Effacer tous les filtres"
+        }
+    },
+    "menteeSidebar": {
+        "dashboard": "Tableau de bord",
+        "mentors": "Mentors",
+        "reviews": "Mes Avis",
+        "logout": "Déconnexion"
+    },
+    "menteeDashboard": {
+        "welcome": "Bienvenue, {{name}}",
+        "logout": "Déconnexion",
+        "stats": {
+            "mentors": "Mes Mentors",
+            "reviews": "Mes Avis"
+        },
+        "popularMentors": "Mentors Populaires"
+    },
+    "mentorsPage": {
+        "title": "Trouvez Votre Mentor",
+        "searchPlaceholder": "Rechercher par nom, rôle ou compétences...",
+        "noMentorsFound": "Aucun mentor ne correspond à votre recherche.",
+        "card": {
+            "students": "Étudiants",
+            "rating": "Note",
+            "viewProfile": "Voir le Profil",
+            "join": "Rejoindre",
+            "joined": "Rejoint"
+        }
+    },
+    "myReviews": {
+        "title": "Mes Avis",
+        "stats": {
+            "total": "Total des avis",
+            "avg": "Note moy. donnée",
+            "mentors": "Mentors évalués"
+        },
+        "filters": {
+            "all": "Tous",
+            "five": "5 étoiles",
+            "four": "4 étoiles",
+            "three": "3 étoiles"
+        },
+        "emptyState": "Aucun avis trouvé pour cette note."
+    },
+    "mentorDetails": {
+        "notFound": "Mentor introuvable",
+        "back": "Retour aux mentors",
+        "join": "Rejoindre",
+        "contact": "Contacter",
+        "students": "étudiants",
+        "joined": "Inscrit en ",
+        "about": "À propos",
+        "education": "Éducation",
+        "totalRating": "Note Globale",
+        "writeReview": {
+            "title": "Rédiger un Avis",
+            "placeholder": "Partagez votre expérience avec ce mentor...",
+            "post": "Publier l'Avis"
+        },
+        "recentReviews": "Avis Récents"
+    }
+}

@@ -1,9 +1,11 @@
 import { useLocation, Link } from "react-router-dom"
 import { LayoutDashboard, LogOut, MessageSquare, User } from "lucide-react"
 import { useAuthStore } from "../../store";
+import { useTranslation } from "react-i18next";
 
 const SideBar = () => {
     const location = useLocation();
+    const { t } = useTranslation();
     const setUser = useAuthStore((state) => state.setUser);
 
     const logout = () => {
@@ -12,22 +14,22 @@ const SideBar = () => {
 
     const items = [
         {
-            title: "Dashboard",
+            titleKey: "mentorSidebar.dashboard",
             icon: <LayoutDashboard size={20} />,
             path: "/mentor"
         },
         {
-            title: "Students",
+            titleKey: "mentorSidebar.students",
             icon: <User size={20} />,
             path: "/mentor/students"
         },
         {
-            title: "Reviews",
+            titleKey: "mentorSidebar.reviews",
             icon: <MessageSquare size={20} />,
             path: "/mentor/reviews"
         },
         {
-            title: "Logout",
+            titleKey: "mentorSidebar.logout",
             icon: <LogOut size={20} />,
             path: "/sign-in"
         },
@@ -41,19 +43,19 @@ const SideBar = () => {
                     return (
                         <Link
                             to={item.path}
-                            key={item.title}
+                            key={item.titleKey}
                             className={`flex gap-4 items-center p-3 rounded-xl transition-all duration-200 ${isActive ? 'text-accent font-bold' : 'text-gray-500 hover:text-accent font-semibold'}`}
                         >
                             {item.icon}
-                            <span>{item.title}</span>
+                            <span>{t(item.titleKey)}</span>
                         </Link>
                     );
                 })}
             </div>
 
-            <div onClick={logout} key={items[3].title} className="flex gap-4 items-center cursor-pointer hover:text-red-500 transition-colors pt-10 border-t border-gray-300">
+            <div onClick={logout} key={items[3].titleKey} className="flex gap-4 items-center cursor-pointer hover:text-red-500 transition-colors pt-10 border-t border-gray-300">
                 {items[3].icon}
-                <span className="font-semibold">{items[3].title}</span>
+                <span className="font-semibold">{t(items[3].titleKey)}</span>
             </div>
         </div>
     )

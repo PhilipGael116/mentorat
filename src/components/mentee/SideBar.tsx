@@ -1,9 +1,11 @@
 import { useLocation, Link } from "react-router-dom"
 import { LayoutDashboard, LogOut, MessageSquare, User } from "lucide-react"
 import { useAuthStore } from "../../store";
+import { useTranslation } from "react-i18next";
 
 const SideBar = () => {
     const location = useLocation();
+    const { t } = useTranslation();
     const setUser = useAuthStore((state) => state.setUser);
 
     const logout = () => {
@@ -12,22 +14,22 @@ const SideBar = () => {
 
     const items = [
         {
-            title: "Dashboard",
+            title: t('menteeSidebar.dashboard'),
             icon: <LayoutDashboard size={20} />,
             path: "/mentee"
         },
         {
-            title: "Mentors",
+            title: t('menteeSidebar.mentors'),
             icon: <User size={20} />,
             path: "/mentee/mentors"
         },
         {
-            title: "My Reviews",
+            title: t('menteeSidebar.reviews'),
             icon: <MessageSquare size={20} />,
             path: "/mentee/reviews"
         },
         {
-            title: "Logout",
+            title: t('menteeSidebar.logout'),
             icon: <LogOut size={20} />,
             path: "/sign-in"
         },

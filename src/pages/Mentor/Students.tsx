@@ -1,4 +1,7 @@
+import { useTranslation } from "react-i18next";
+
 const Students = () => {
+    const { t } = useTranslation();
     const recentStudents = [
         {
             id: 1,
@@ -51,14 +54,14 @@ const Students = () => {
 
                 {/* Header */}
                 <div className="mb-8">
-                    <h2 className="text-2xl font-heading">Recent Students</h2>
+                    <h2 className="text-2xl font-heading">{t('mentorDashboard.recentStudents.title')}</h2>
                 </div>
 
                 {/* Table Header (hidden on mobile) */}
                 <div className="hidden sm:grid sm:grid-cols-[80px_1fr_1fr] border-b border-gray-200 pb-4 mb-6 text-gray-400 font-semibold uppercase text-xs tracking-wider">
-                    <div>No.</div>
-                    <div>Name</div>
-                    <div className="text-right">Date Joined</div>
+                    <div>{t('mentorDashboard.recentStudents.tableHeaders.no')}</div>
+                    <div>{t('mentorDashboard.recentStudents.tableHeaders.name')}</div>
+                    <div className="text-right">{t('mentorDashboard.recentStudents.tableHeaders.dateJoined')}</div>
                 </div>
 
                 {/* Student Rows */}
@@ -71,7 +74,7 @@ const Students = () => {
 
                             {/* Number */}
                             <div className="font-heading text-lg">
-                                <span className="sm:hidden text-gray-400 text-sm">No: </span>
+                                <span className="sm:hidden text-gray-400 text-sm">{t('mentorDashboard.recentStudents.mobileLabels.no')}</span>
                                 {index + 1}
                             </div>
 
@@ -86,7 +89,7 @@ const Students = () => {
                             {/* Date */}
                             <div className="sm:text-right font-medium text-gray-600">
                                 <span className="sm:hidden text-gray-400 text-sm">
-                                    Joined:{" "}
+                                    {t('mentorDashboard.recentStudents.mobileLabels.joined')}
                                 </span>
                                 {student.dateJoined}
                             </div>

@@ -20,7 +20,7 @@ const Header = () => {
             </Link>
 
             {/* Right Action Area */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4">
                 {/* Navigation Menu (Desktop) */}
                 <Menu />
 
