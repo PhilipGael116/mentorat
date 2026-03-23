@@ -6,12 +6,9 @@ import { useAuthStore } from "../../store"
 
 const DashBoard = () => {
     const { t } = useTranslation()
-    const setUser = useAuthStore((state) => state.setUser);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-    const logout = () => {
-        setUser(false);
-    }
+    const logout = useAuthStore((state) => state.logout);
 
     const recentStudents = [
         {

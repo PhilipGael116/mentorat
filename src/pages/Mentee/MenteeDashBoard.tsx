@@ -17,10 +17,7 @@ const MenteeDashBoard = () => {
         );
     }
 
-    const setUser = useAuthStore((state) => state.setUser);
-    const logout = () => {
-        setUser(false);
-    }
+    const logout = useAuthStore((state) => state.logout);
 
     const avatarColors = [
         'bg-[#FF6B6B]', // Soft Red

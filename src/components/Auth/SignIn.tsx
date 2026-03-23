@@ -1,10 +1,11 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { z } from 'zod'
 import { useAuthStore } from "../../store"
+import api from "../../utils/api"
 
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, Loader2 } from "lucide-react"
 
 const userSchema = z.object({
     email: z.string().email("Please enter a valid email address"),
@@ -14,6 +15,7 @@ const userSchema = z.object({
 const SignIn = () => {
     const { t } = useTranslation();
     const setUser = useAuthStore((state) => state.setUser);
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         email: '',
@@ -22,6 +24,7 @@ const SignIn = () => {
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [isHovered, setIsHovered] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
@@ -31,7 +34,7 @@ const SignIn = () => {
         }));
     }
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         // 1. Run the validation
@@ -48,16 +51,36 @@ const SignIn = () => {
             return; // Stop the submission here
         }
 
-        // 3. If it succeeds, clear errors and proceed
         setErrors({});
-        console.log("Form submitted successfully: ", result.data);
-        setUser(true);
+        setIsLoading(true);
 
-        // Reset form or redirect
-        setFormData({
-            email: "",
-            password: "",
-        })
+        try {
+            const response = await api.post("/auth/login", formData);
+
+            if (response.data.token) {
+                // 1. Save critical data
+                localStorage.setItem("token", response.data.token);
+                // 2. Update store (ensure backend sends the user object)
+                setUser(response.data.user);
+
+                // 3. Clear the form
+                setFormData({ email: "", password: "" });
+
+                // 4. Navigate smoothly based on role
+                const role = response.data.user.role; // Casing: "Mentor" or "Mentee"
+                if (role === "Mentor") {
+                    navigate("/mentor-wizard");
+                } else {
+                    navigate("/mentee");
+                }
+            }
+        } catch (error: any) {
+            // Handle backend errors (e.g., "Invalid credentials")
+            console.error("Login Error:", error);
+            setErrors({ server: error.response?.data?.message || "Login failed. Please check your credentials." });
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -71,6 +94,13 @@ const SignIn = () => {
 
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-5">
+                    {/* Global Server Error Message */}
+                    {errors.server && (
+                        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm font-medium animate-in fade-in slide-in-from-top-2 duration-200">
+                            {errors.server}
+                        </div>
+                    )}
+
                     {/* Email Field */}
                     <div className="flex flex-col">
                         <label htmlFor="email" className="text-sm font-medium text-gray-700 mb-1.5">
@@ -118,9 +148,16 @@ const SignIn = () => {
                     {/* Submit Button */}
                     <button
                         type="submit"
-                        className="w-full bg-accent text-white font-semibold py-3 rounded-lg hover:bg-accent/70 transition-colors duration-200 shadow-sm"
+                        disabled={isLoading}
+                        className="w-full bg-accent text-white font-semibold py-3 rounded-lg hover:bg-accent/70 transition-colors duration-200 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
-                        {t('auth.signIn')}
+                        {isLoading ? (
+                            <>
+                                <Loader2 className="animate-spin" size={20} />
+                            </>
+                        ) : (
+                            t('auth.signIn')
+                        )}
                     </button>
 
                     <div className="flex items-center justify-between">

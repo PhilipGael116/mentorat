@@ -1,11 +1,25 @@
 import { create } from "zustand";
 
+type User = {
+    id: string;
+    email: string;
+    Fname: string;
+    Lname: string;
+    role: "Mentor" | "Mentee";
+    hasProfile?: boolean;
+}
+
 type AuthStore = {
-    user: boolean;
-    setUser: (user: boolean) => void;
+    user: User | null;
+    setUser: (user: User | null) => void;
+    logout: () => void;
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
-    user: false,
-    setUser: (user: boolean) => set({ user }),
+    user: null,
+    setUser: (user) => set({ user }),
+    logout: () => {
+        localStorage.removeItem("token");
+        set({ user: null });
+    }
 }))

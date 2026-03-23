@@ -6,11 +6,7 @@ import { useTranslation } from "react-i18next";
 const SideBar = () => {
     const location = useLocation();
     const { t } = useTranslation();
-    const setUser = useAuthStore((state) => state.setUser);
-
-    const logout = () => {
-        setUser(false);
-    }
+    const logout = useAuthStore((state) => state.logout);
 
     const items = [
         {

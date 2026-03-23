@@ -18,10 +18,10 @@ const Mentors = () => {
         );
     }
 
-    const setUser = useAuthStore((state) => state.setUser);
+    const logout = useAuthStore((state) => state.logout);
 
-    const logout = () => {
-        setUser(false);
+    const logoutHandler = () => {
+        logout();
     }
 
     const avatarColors = [
@@ -122,7 +122,7 @@ const Mentors = () => {
                         {isProfileOpen && (
                             <div className="absolute right-0 mt-2 w-48 bg-primary border border-gray-200 rounded-2xl shadow-xl overflow-hidden py-2 z-50 animate-in fade-in zoom-in-95 duration-200">
                                 <button
-                                    onClick={logout}
+                                    onClick={logoutHandler}
                                     className="flex items-center gap-3 w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-red-50 hover:text-red-500 transition-colors"
                                 >
                                     <LogOut size={18} />
