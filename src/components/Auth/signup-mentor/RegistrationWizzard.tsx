@@ -4,21 +4,22 @@ import { useTranslation } from "react-i18next";
 import { z } from "zod";
 import { useMultiStepRegister } from "./useMultiStepRegister";
 import { ChevronRight, ChevronLeft, MapPin, Loader2 } from "lucide-react";
+import api from "../../../utils/api";
 import { useAuthStore } from "../../../store";
 
 // Validation schemas for each step
 const step1Schema = z.object({}); // Welcome step, no validation needed
 const step2Schema = z.object({
-    hasOLevel: z.boolean(),
+    hasOlevel: z.boolean(),
     oLevelSeries: z.string().min(1, "Please select your O-Level series"),
 });
 const step3Schema = z.object({
-    hasALevel: z.boolean(),
+    hasAlevel: z.boolean(),
     aLevelSeries: z.string().min(1, "Please select your A-Level series"),
 });
 const step4Schema = z.object({
     currentStatus: z.string().min(5, "Please tell us your current status"),
-    experience: z.string().min(10, "Briefly describe your experience"),
+    bio: z.string().min(10, "Briefly describe your bio"),
     location: z.string().min(2, "Please provide your location"),
 });
 
@@ -26,13 +27,15 @@ const RegistrationWizzard = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const setUser = useAuthStore((state) => state.setUser);
+    const user = useAuthStore((state) => state.user);
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
-        hasOLevel: true,
+        hasOlevel: true,
         oLevelSeries: "",
-        hasALevel: true,
+        hasAlevel: true,
         aLevelSeries: "",
         currentStatus: "",
-        experience: "",
+        bio: "",
         location: "",
     });
 
@@ -139,8 +142,8 @@ const RegistrationWizzard = () => {
                                 <button
                                     key={val}
                                     type="button"
-                                    onClick={() => updateFields({ hasOLevel: val === 'Yes' })}
-                                    className={`flex-1 py-3 px-4 rounded-xl border-2 transition-all ${formData.hasOLevel === (val === 'Yes') ? 'border-accent bg-accent/5 text-accent font-bold' : 'border-gray-200 text-gray-500 hover:border-gray-400'}`}
+                                    onClick={() => updateFields({ hasOlevel: val === 'Yes' })}
+                                    className={`flex-1 py-3 px-4 rounded-xl border-2 transition-all ${formData.hasOlevel === (val === 'Yes') ? 'border-accent bg-accent/5 text-accent font-bold' : 'border-gray-200 text-gray-500 hover:border-gray-400'}`}
                                 >
                                     {val === 'Yes' ? t('wizard.yes') : t('wizard.no')}
                                 </button>
@@ -148,7 +151,7 @@ const RegistrationWizzard = () => {
                         </div>
                     </div>
 
-                    {formData.hasOLevel && (
+                    {formData.hasOlevel && (
                         <div className="flex flex-col gap-2">
                             <label className="text-sm font-medium text-gray-700">{t('wizard.oLevel.seriesQuestion')}</label>
                             <div className="grid grid-cols-2 gap-3">
@@ -182,8 +185,8 @@ const RegistrationWizzard = () => {
                                 <button
                                     key={val}
                                     type="button"
-                                    onClick={() => updateFields({ hasALevel: val === 'Yes' })}
-                                    className={`flex-1 py-3 px-4 rounded-xl border-2 transition-all ${formData.hasALevel === (val === 'Yes') ? 'border-accent bg-accent/5 text-accent font-bold' : 'border-gray-200 text-gray-500 hover:border-gray-400'}`}
+                                    onClick={() => updateFields({ hasAlevel: val === 'Yes' })}
+                                    className={`flex-1 py-3 px-4 rounded-xl border-2 transition-all ${formData.hasAlevel === (val === 'Yes') ? 'border-accent bg-accent/5 text-accent font-bold' : 'border-gray-200 text-gray-500 hover:border-gray-400'}`}
                                 >
                                     {val === 'Yes' ? t('wizard.yes') : t('wizard.no')}
                                 </button>
@@ -191,7 +194,7 @@ const RegistrationWizzard = () => {
                         </div>
                     </div>
 
-                    {formData.hasALevel && (
+                    {formData.hasAlevel && (
                         <div className="flex flex-col gap-2">
                             <label className="text-sm font-medium text-gray-700">{t('wizard.aLevel.seriesQuestion')}</label>
                             <div className="grid grid-cols-2 gap-3">
@@ -255,12 +258,12 @@ const RegistrationWizzard = () => {
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-gray-700 mb-1.5">{t('wizard.professional.experienceLabel')}</label>
                     <textarea
-                        value={formData.experience}
-                        onChange={e => updateFields({ experience: e.target.value })}
+                        value={formData.bio}
+                        onChange={e => updateFields({ bio: e.target.value })}
                         placeholder={t('wizard.professional.experiencePlaceholder')}
-                        className={`px-4 py-3 border-2 rounded-xl focus:outline-none transition-all h-28 ${errors.experience ? "border-red-500 focus:ring-red-500" : "border-gray-200 focus:ring-accent"}`}
+                        className={`px-4 py-3 border-2 rounded-xl focus:outline-none transition-all h-28 ${errors.bio ? "border-red-500 focus:ring-red-500" : "border-gray-200 focus:ring-accent"}`}
                     />
-                    {errors.experience && <p className="text-red-500 text-xs mt-1 font-medium">{errors.experience}</p>}
+                    {errors.bio && <p className="text-red-500 text-xs mt-1 font-medium">{errors.bio}</p>}
                 </div>
             </div>
         </div>
@@ -275,12 +278,28 @@ const RegistrationWizzard = () => {
         }
     }, [currentStepIndex]);
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (validateStep(currentStepIndex)) {
             if (isLastStep) {
-                console.log("Wizard Complete:", formData);
-                setUser(true);
-                navigate("/mentor"); // Final destination
+                setIsLoading(true);
+                setErrors({});
+                try {
+                    // Send profile data to backend
+                    const response = await api.post("/setup", formData);
+
+                    if (response.status === 200 || response.status === 201) {
+                        // Update store: user now has a profile
+                        if (user) {
+                            setUser({ ...user, hasProfile: true });
+                        }
+                        navigate("/mentor"); // Final destination
+                    }
+                } catch (error: any) {
+                    console.error("Profile Creation error:", error);
+                    setErrors({ server: error.response?.data?.message || "Could not save profile. Please try again." });
+                } finally {
+                    setIsLoading(false);
+                }
             } else {
                 next();
             }
@@ -304,6 +323,12 @@ const RegistrationWizzard = () => {
                     </div>
                 </div>
 
+                {errors.server && (
+                    <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm font-medium mb-6 animate-in fade-in slide-in-from-top-2 duration-200">
+                        {errors.server}
+                    </div>
+                )}
+
                 <div className="min-h-[300px]">
                     {step}
                 </div>
@@ -323,10 +348,17 @@ const RegistrationWizzard = () => {
 
                     <button
                         onClick={handleNext}
-                        className="bg-accent text-white font-bold py-4 px-10 rounded-2xl hover:bg-accent/70 transition-all duration-300 flex items-center gap-3"
+                        disabled={isLoading}
+                        className="bg-accent text-white font-bold py-4 px-10 rounded-2xl hover:bg-accent/70 transition-all duration-300 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        {isLastStep ? t('wizard.letsGo') : t('wizard.nextStep')}
-                        {!isLastStep && <ChevronRight size={20} />}
+                        {isLoading ? (
+                            <Loader2 size={20} className="animate-spin" />
+                        ) : (
+                            <>
+                                {isLastStep ? t('wizard.letsGo') : t('wizard.nextStep')}
+                                {!isLastStep && <ChevronRight size={20} />}
+                            </>
+                        )}
                     </button>
                 </div>
             </div>

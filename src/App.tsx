@@ -1,4 +1,7 @@
 import { Route, Routes } from "react-router-dom"
+import { useEffect } from "react"
+import { useAuthStore } from "./store"
+import api from "./utils/api"
 import Home from "./pages/Home"
 import { SignIn } from "./components/Auth"
 import AuthLayout from "./layouts/Authlayout"
@@ -13,6 +16,34 @@ import { MenteeDashBoard, Mentors, MentorDetails, MyReviews } from "./pages/Ment
 import NotFound from "./pages/NotFound"
 
 const App = () => {
+  const setUser = useAuthStore((state) => state.setUser);
+  const user = useAuthStore((state) => state.user);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+
+      // Only fetch if we have a token but NO user in memory (fresh refresh)
+      if (token && !user) {
+        try {
+          // Ask the backend for the CURRENT user
+          const response = await api.get("/auth/me");
+          
+          if (response.data.user) {
+            setUser(response.data.user);
+          }
+        } catch (error) {
+          console.error("Auto-login failed:", error);
+          // If the token is invalid or expired, clear it
+          localStorage.removeItem("token");
+          setUser(null);
+        }
+      }
+    };
+
+    fetchUser();
+  }, [setUser, user]);
+
   return (
     <div className="bg-primary min-h-screen">
       <Routes>
