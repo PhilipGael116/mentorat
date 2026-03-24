@@ -69,7 +69,7 @@ const SignIn = () => {
                 // 4. Navigate smoothly based on role
                 const role = response.data.user.role; // Casing: "Mentor" or "Mentee"
                 if (role === "Mentor") {
-                    navigate("/mentor-wizard");
+                    navigate("/mentor");
                 } else {
                     navigate("/mentee");
                 }

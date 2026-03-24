@@ -29,8 +29,10 @@ const App = () => {
           // Ask the backend for the CURRENT user
           const response = await api.get("/auth/me");
           
-          if (response.data.user) {
-            setUser(response.data.user);
+          const userData = response.data.user || response.data.data;
+          
+          if (userData) {
+            setUser(userData);
           }
         } catch (error) {
           console.error("Auto-login failed:", error);
