@@ -4,13 +4,13 @@ import { useAuthStore } from '../../store'
 import api from "../../utils/api"
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import StarRating from '../../components/StarRating'
 
 const MenteeDashBoard = () => {
     const { t } = useTranslation()
     const [isProfileOpen, setIsProfileOpen] = useState(false);
-    const [joinedMentorIds, setJoinedMentorIds] = useState<number[]>([]);
-
+    const queryClient = useQueryClient();
     const user = useAuthStore((state) => state.user);
 
     // 🚀 React Query automatically caches this data!
@@ -24,7 +24,7 @@ const MenteeDashBoard = () => {
             ]);
 
             return {
-                myMentors: mentorsResponse.data?.mentors || [],
+                myMentors: mentorsResponse.data?.data || mentorsResponse.data?.mentors || [],
                 myReviews: reviewsResponse.data?.data || reviewsResponse.data?.reviews || [],
                 allMentors: allMentorsResponse.data?.data || allMentorsResponse.data?.mentors || []
             };
@@ -37,12 +37,20 @@ const MenteeDashBoard = () => {
     const myReviews = data?.myReviews || [];
     const allMentors = data?.allMentors || [];
 
-    const handleJoin = (mentorId: number) => {
-        setJoinedMentorIds((prev) =>
-            prev.includes(mentorId)
-                ? prev.filter((id) => id !== mentorId)
-                : [...prev, mentorId]
-        );
+    const handleJoin = async (mentor: any) => {
+        const isJoined = myMentors.some((m: any) => m.id === mentor.id);
+
+        try {
+            if (isJoined) {
+                await api.post(`/unfollow/${mentor.userId || mentor.id}`);
+            } else {
+                await api.post(`/follow/${mentor.userId || mentor.id}`);
+            }
+            // 🚀 Refresh data immediately after joining/unjoining
+            queryClient.invalidateQueries({ queryKey: ['menteeDashboardStats'] });
+        } catch (error) {
+            console.error("Error toggling join status:", error);
+        }
     }
 
     const logout = useAuthStore((state) => state.logout);
@@ -186,8 +194,8 @@ const MenteeDashBoard = () => {
                                                 <span className="text-sm font-semibold">{mentorStudents} <span className="font-normal text-xs uppercase">{t('mentorsPage.card.students')}</span></span>
                                             </div>
                                             <div className="flex items-center gap-2 text-gray-500">
-                                                <Star size={16} className="text-accent fill-accent" />
-                                                <span className="text-sm font-semibold">{mentorRating} <span className="font-normal text-xs uppercase">{t('mentorsPage.card.rating')}</span></span>
+                                                <StarRating rating={mentorRating} size={14} />
+                                                <span className="text-sm font-semibold">{mentorRating.toFixed(1)} <span className="font-normal text-xs uppercase">{t('mentorsPage.card.rating')}</span></span>
                                             </div>
                                         </div>
 
@@ -197,13 +205,13 @@ const MenteeDashBoard = () => {
                                                 {t('mentorsPage.card.viewProfile')}
                                             </Link>
                                             <button
-                                                onClick={() => handleJoin(mentor.id)}
-                                                className={`py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm flex justify-center items-center ${joinedMentorIds.includes(mentor.id)
+                                                onClick={() => handleJoin(mentor)}
+                                                className={`py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm flex justify-center items-center ${myMentors.some((m: any) => m.id === mentor.id)
                                                     ? "bg-gray-100 text-secondary border border-gray-200"
                                                     : "bg-secondary text-white hover:opacity-90 shadow-accent/20"
                                                     }`}
                                             >
-                                                {joinedMentorIds.includes(mentor.id) ? t('mentorsPage.card.joined') : t('mentorsPage.card.join')}
+                                                {myMentors.some((m: any) => m.id === mentor.id) ? t('mentorsPage.card.joined') : t('mentorsPage.card.join')}
                                             </button>
                                         </div>
                                     </div>

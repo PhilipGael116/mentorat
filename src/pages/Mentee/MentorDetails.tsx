@@ -1,9 +1,10 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { Star, MapPin, Calendar, MessageSquare, Send, Loader2 } from 'lucide-react'
+import { MapPin, Calendar, MessageSquare, Send, Loader2 } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import api from '../../utils/api'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
+import StarRating from '../../components/StarRating'
 
 const MentorDetails = () => {
     const { t } = useTranslation();
@@ -308,17 +309,8 @@ const MentorDetails = () => {
                         <div className="rounded-3xl p-6 border border-gray-300 w-full min-w-fit">
                             <h4 className="text-accent font-bold mb-2 uppercase tracking-wider text-[10px] sm:text-xs">{t('mentorDetails.totalRating')}</h4>
                             <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                                <span className="text-3xl sm:text-4xl font-bold text-secondary font-heading">{mentorRating}</span>
-                                <div className="flex items-center gap-1">
-                                    {[1, 2, 3, 4, 5].map((star) => (
-                                        <Star
-                                            key={star}
-                                            fill={star <= Math.round(mentorRating) ? "currentColor" : "none"}
-                                            className={`sm:w-5 sm:h-5 ${star <= Math.round(mentorRating) ? "text-accent" : "text-gray-200"}`}
-                                            size={18}
-                                        />
-                                    ))}
-                                </div>
+                                <span className="text-3xl sm:text-4xl font-bold text-secondary font-heading">{mentorRating.toFixed(1)}</span>
+                                <StarRating rating={mentorRating} size={20} />
                             </div>
                         </div>
                     </div>
@@ -330,15 +322,7 @@ const MentorDetails = () => {
                     <div className=" rounded-3xl border border-gray-200 p-6">
                         <h2 className="text-xl font-bold text-secondary font-heading mb-4">{t('mentorDetails.writeReview.title')}</h2>
                         <div className="flex gap-1 mb-4">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                                <button
-                                    key={star}
-                                    onClick={() => setRating(star)}
-                                    className={`${rating >= star ? 'text-accent' : 'text-gray-300'} hover:scale-110 transition-transform`}
-                                >
-                                    <Star fill={rating >= star ? "currentColor" : "none"} size={24} />
-                                </button>
-                            ))}
+                            <StarRating rating={rating} size={28} onRate={(newRating) => setRating(newRating)} />
                         </div>
                         <textarea
                             className="w-full rounded-2xl border-gray-200 border p-4 text-sm focus:border-accent focus:ring-1 focus:ring-accent outline-none min-h-[120px] mb-4 font-sans font-medium"
@@ -376,8 +360,8 @@ const MentorDetails = () => {
                                             <p className="font-bold text-secondary text-sm">{reviewerName}</p>
                                             <p className="text-gray-400 text-xs">{reviewDate}</p>
                                         </div>
-                                        <div className="flex text-accent mb-2">
-                                            {[...Array(reviewRating)].map((_, i) => <Star key={i} fill="currentColor" size={12} />)}
+                                        <div className="mb-2">
+                                            <StarRating rating={reviewRating} size={12} />
                                         </div>
                                         <p className="text-gray-600 text-sm line-clamp-3">"{reviewText}"</p>
                                     </div>

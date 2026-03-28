@@ -1,6 +1,7 @@
 import { Star } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import StarRating from '../../components/StarRating'
 
 const MyReviews = () => {
     const { t } = useTranslation();
@@ -122,10 +123,8 @@ const MyReviews = () => {
                                     <p className='text-accent text-xs sm:text-sm font-bold uppercase tracking-wider truncate'>{r.mentorRole}</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-1 shrink-0">
-                                {[...Array(r.rating)].map((_, i) => (
-                                    <Star key={i} size={14} className="text-accent fill-accent sm:w-4 sm:h-4" />
-                                ))}
+                            <div className="shrink-0">
+                                <StarRating rating={r.rating} size={14} />
                             </div>
                         </div>
                         <p className='text-gray-600 leading-relaxed text-sm sm:text-base wrap-break-word flex-1'>"{r.comment}"</p>
