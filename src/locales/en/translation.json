@@ -59,13 +59,13 @@
             "highlight": "we just want to know more about you."
         },
         "oLevel": {
-            "title": "GCE Ordinary Level",
-            "question": "Do you have your O-Level?",
+            "title": "BEPC & Probatoire",
+            "question": "Do you have your BEPC or Probatoire?",
             "seriesQuestion": "Which series did you take?"
         },
         "aLevel": {
-            "title": "GCE Advanced Level",
-            "question": "Do you have your A-Level?",
+            "title": "Baccalauréat",
+            "question": "Do you have your Baccalauréat?",
             "seriesQuestion": "Which series did you take?"
         },
         "professional": {

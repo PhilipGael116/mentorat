@@ -196,8 +196,8 @@ const MentorDetails = () => {
     const mentorJoinedDate = mentor.createdAt ? new Date(mentor.createdAt).toLocaleDateString() : mentor.joinedDate || "Unknown";
 
     const mentorEducation = [];
-    if (mentor.hasOlevel) mentorEducation.push({ level: "GCE O-Level", series: mentor.oLevelSeries });
-    if (mentor.hasAlevel) mentorEducation.push({ level: "GCE A-Level", series: mentor.aLevelSeries });
+    if (mentor.hasOlevel) mentorEducation.push({ level: t('wizard.oLevel.title'), series: mentor.oLevelSeries });
+    if (mentor.hasAlevel) mentorEducation.push({ level: t('wizard.aLevel.title'), series: mentor.aLevelSeries });
     if (mentorEducation.length === 0 && mentor.education) mentorEducation.push(...mentor.education);
 
     // get mentor contact
