@@ -23,18 +23,23 @@ const App = () => {
     const fetchUser = async () => {
       const token = localStorage.getItem("token");
 
-      // Only fetch if we have a token but NO user in memory (fresh refresh)
+      // Use both token existence AND lack of current user state as trigger
       if (token && !user) {
         try {
           // Ask the backend for the CURRENT user
           const response = await api.get("/auth/me");
           
-          const userData = response.data.user || response.data.data;
+          // Fallback safely if responses vary
+          const userData = response.data?.user || response.data?.data || response.data;
           
-          if (userData) {
-            setUser(userData);
+          if (userData && (userData.id || userData.email)) {
+             setUser(userData);
+          } else {
+             // If we got back success:false or similar
+             localStorage.removeItem("token");
+             setUser(null);
           }
-        } catch (error) {
+        } catch (error: any) {
           console.error("Auto-login failed:", error);
           // If the token is invalid or expired, clear it
           localStorage.removeItem("token");
