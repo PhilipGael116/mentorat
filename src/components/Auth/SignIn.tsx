@@ -160,35 +160,52 @@ const SignIn = () => {
                         )}
                     </button>
 
-                    <div className="flex items-center justify-between">
-                        <Link to="/" className="text-secondary hover:text-accent font-medium transition-colors" >{t('auth.goToHome')} </Link>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2">
+                        <Link to="/" className="text-secondary hover:text-accent font-medium transition-colors text-sm sm:text-base" >
+                            {t('auth.goToHome')}
+                        </Link>
 
                         {/* Register Link with Dropdown */}
-                        <div
-                            className="relative group flex items-center"
-                            onMouseEnter={() => setIsHovered(true)}
-                            onMouseLeave={() => setIsHovered(false)}
-                        >
-                            <p className="text-gray-600">
+                        <div className="relative flex items-center w-full sm:w-auto">
+                            <button
+                                type="button"
+                                onClick={() => setIsHovered(!isHovered)}
+                                className="group flex items-center gap-1 text-gray-600 text-sm sm:text-base text-left w-full sm:w-auto"
+                            >
                                 {t('auth.dontHaveAccount')}
-                                <span className="text-accent font-semibold hover:underline cursor-pointer inline-flex items-center gap-1 align-baseline">
+                                <span className="text-accent font-semibold hover:underline inline-flex items-center gap-1">
                                     {t('auth.register')}
                                     <ChevronRight size={16} className={`transition-transform duration-200 ${isHovered ? 'rotate-90' : ''}`} />
                                 </span>
-                            </p>
+                            </button>
 
-                            {/* Dropdown Menu - Added a wrapper with padding to bridge the gap for the mouse */}
+                            {/* Dropdown Menu */}
                             {isHovered && (
-                                <div className="absolute bottom-full right-0 pb-3 z-10">
-                                    <div className="w-48 bg-white border border-gray-100 rounded-2xl shadow-xl overflow-hidden py-2 animate-in fade-in slide-in-from-bottom-2 duration-200">
-                                        <Link to="/register-mentor" className="block w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-accent/5 hover:text-accent transition-colors">
-                                            {t('header.asMentor')}
-                                        </Link>
-                                        <Link to="/register-mentee" className="block w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-accent/5 hover:text-accent transition-colors border-t border-gray-50">
-                                            {t('header.asMentee')}
-                                        </Link>
+                                <>
+                                    {/* Backdrop for closing by clicking outside on mobile */}
+                                    <div 
+                                        className="fixed inset-0 z-10" 
+                                        onClick={() => setIsHovered(false)} 
+                                    />
+                                    <div className="absolute bottom-full right-0 mb-2 pb-1 z-20">
+                                        <div className="w-48 bg-primary border border-gray-100 rounded-2xl shadow-xl overflow-hidden py-2 animate-in fade-in slide-in-from-bottom-2 duration-200">
+                                            <Link 
+                                                to="/register-mentor" 
+                                                onClick={() => setIsHovered(false)}
+                                                className="block w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-accent/5 hover:text-accent transition-colors"
+                                            >
+                                                {t('header.asMentor')}
+                                            </Link>
+                                            <Link 
+                                                to="/register-mentee" 
+                                                onClick={() => setIsHovered(false)}
+                                                className="block w-full text-left px-4 py-3 text-gray-700 font-medium hover:bg-accent/5 hover:text-accent transition-colors border-t border-gray-100"
+                                            >
+                                                {t('header.asMentee')}
+                                            </Link>
+                                        </div>
                                     </div>
-                                </div>
+                                </>
                             )}
                         </div>
                     </div>

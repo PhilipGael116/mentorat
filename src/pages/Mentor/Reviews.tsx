@@ -1,48 +1,24 @@
 import { useState, useMemo } from "react";
-import { Filter, Star } from "lucide-react";
+import { Filter, Star, Loader2 } from "lucide-react";
 import { FaSortAmountDown, FaSortAmountUp } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import api from "../../utils/api";
+import { useAuthStore } from "../../store";
 
 const Reviews = () => {
     const { t } = useTranslation();
-    // 1. Storage of original data
-    const reviewsData = [
-        {
-            id: 1,
-            name: "Philippe",
-            email: "philippe@example.com",
-            comment: "This mentor is amazing! Explains complex concepts very clearly.",
-            rating: 5,
+    const user = useAuthStore((state) => state.user);
+
+    const { data: reviewsData = [], isLoading } = useQuery({
+        queryKey: ['mentorReviews', user?.id],
+        queryFn: async () => {
+            const response = await api.get(`/getMentorReview/${user?.id}`);
+            return response.data?.data || response.data?.reviews || response.data || [];
         },
-        {
-            id: 2,
-            name: "Gauthier",
-            email: "gauthier@example.com",
-            comment: "Great session on A-Level Physics. Highly recommended.",
-            rating: 4,
-        },
-        {
-            id: 3,
-            name: "Samuel Eto'o",
-            email: "sam.etoo@outlook.com",
-            comment: "Very patient and helpful with my university application.",
-            rating: 5,
-        },
-        {
-            id: 4,
-            name: "John Doe",
-            email: "john.doe@example.com",
-            comment: "Really helped me with my coding project. Thank you!",
-            rating: 4,
-        },
-        {
-            id: 5,
-            name: "Jane Smith",
-            email: "jane.smith@example.com",
-            comment: "Fantastic teaching style, very engaging.",
-            rating: 5,
-        },
-    ];
+        enabled: !!user?.id,
+        staleTime: 5 * 60 * 1000,
+    });
 
     // 2. State for Sorting and Filtering
     const [sortOrder, setSortOrder] = useState<"desc" | "asc">("desc"); // desc = highest first, asc = lowest
@@ -54,19 +30,21 @@ const Reviews = () => {
 
         // Apply Filter (Visibility)
         if (filterLevel > 0) {
-            filtered = filtered.filter(r => r.rating >= filterLevel);
+            filtered = filtered.filter((r: any) => (r.rating || 0) >= filterLevel);
         }
 
         // Apply Sort (Order)
-        filtered.sort((a, b) => {
-            return sortOrder === "desc" ? b.rating - a.rating : a.rating - b.rating;
+        filtered.sort((a: any, b: any) => {
+            const ratingA = a.rating || 0;
+            const ratingB = b.rating || 0;
+            return sortOrder === "desc" ? ratingB - ratingA : ratingA - ratingB;
         });
 
         return filtered;
-    }, [sortOrder, filterLevel]);
+    }, [reviewsData, sortOrder, filterLevel]);
 
     // 4. Interaction Handlers
-    const toggleSort = () => setSortOrder(prev => prev === "desc" ? "asc" : "desc");
+    const toggleSort = () => setSortOrder((prev) => prev === "desc" ? "asc" : "desc");
     const cycleFilter = () => {
         if (filterLevel === 0) setFilterLevel(5);
         else if (filterLevel === 5) setFilterLevel(4);
@@ -115,38 +93,52 @@ const Reviews = () => {
 
                 {/* Review Rows */}
                 <div className="space-y-8">
-                    {processedReviews.length > 0 ? (
-                        processedReviews.map((review, index) => (
-                            <div
-                                key={review.id}
-                                className="flex flex-col gap-2 sm:grid sm:grid-cols-[80px_200px_1fr_100px] sm:items-center sm:border-0 border-b border-gray-200 sm:pb-4 sm:mb-0 pb-4 mb-6 last:border-0 last:mb-0"
-                            >
-                                {/* Number */}
-                                <div className="font-heading text-lg text-gray-400">
-                                    <span className="sm:hidden text-gray-400 text-sm">{t('mentorReviews.mobileLabels.no')}</span>
-                                    {index + 1}
-                                </div>
+                    {isLoading ? (
+                        <div className="flex flex-col items-center justify-center py-20 text-gray-400">
+                            <Loader2 size={40} className="mb-4 animate-spin text-accent" />
+                            <p className="font-heading text-lg">{t('common.loading') || "Loading reviews..."}</p>
+                        </div>
+                    ) : processedReviews.length > 0 ? (
+                        processedReviews.map((review: any, index: number) => {
+                            const studentName = review.author?.user 
+                                ? `${review.author.user.Fname} ${review.author.user.Lname}` 
+                                : (review.name || "Student");
+                            const studentEmail = review.author?.user?.email || review.email || "";
+                            const reviewComment = review.comment || "";
+                            const reviewRating = review.rating || 0;
 
-                                {/* Name + Email */}
-                                <div className="flex flex-col">
-                                    <h3 className="text-lg font-heading leading-tight">{review.name}</h3>
-                                    <p className="text-sm text-gray-500">{review.email}</p>
-                                </div>
+                            return (
+                                <div
+                                    key={review.id}
+                                    className="flex flex-col gap-2 sm:grid sm:grid-cols-[80px_200px_1fr_100px] sm:items-center sm:border-0 border-b border-gray-200 sm:pb-4 sm:mb-0 pb-4 mb-6 last:border-0 last:mb-0"
+                                >
+                                    {/* Number */}
+                                    <div className="font-heading text-lg text-gray-400">
+                                        <span className="sm:hidden text-gray-400 text-sm">{t('mentorReviews.mobileLabels.no')}</span>
+                                        {index + 1}
+                                    </div>
 
-                                {/* Comment */}
-                                <div className="text-gray-600 sm:line-clamp-2 sm:pr-6">
-                                    <span className="sm:hidden text-gray-400 text-sm not-italic block mb-1">{t('mentorReviews.mobileLabels.comment')}</span>
-                                    "{review.comment}"
-                                </div>
+                                    {/* Name + Email */}
+                                    <div className="flex flex-col">
+                                        <h3 className="text-lg font-heading leading-tight">{studentName}</h3>
+                                        <p className="text-sm text-gray-500">{studentEmail}</p>
+                                    </div>
 
-                                {/* Rating */}
-                                <div className="flex items-center sm:justify-end gap-1">
-                                    <span className="sm:hidden text-gray-400 text-sm mr-2">{t('mentorReviews.mobileLabels.rating')}</span>
-                                    <span className="font-heading font-bold text-gray-900">{review.rating}</span>
-                                    <Star size={16} className="text-accent fill-accent" />
+                                    {/* Comment */}
+                                    <div className="text-gray-600 sm:line-clamp-2 sm:pr-6">
+                                        <span className="sm:hidden text-gray-400 text-sm not-italic block mb-1">{t('mentorReviews.mobileLabels.comment')}</span>
+                                        "{reviewComment}"
+                                    </div>
+
+                                    {/* Rating */}
+                                    <div className="flex items-center sm:justify-end gap-1">
+                                        <span className="sm:hidden text-gray-400 text-sm mr-2">{t('mentorReviews.mobileLabels.rating')}</span>
+                                        <span className="font-heading font-bold text-gray-900">{reviewRating}</span>
+                                        <Star size={16} className="text-accent fill-accent" />
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            );
+                        })
                     ) : (
                         <div className="flex flex-col items-center justify-center py-20 text-gray-400">
                             <Star size={40} className="mb-4 opacity-20" />

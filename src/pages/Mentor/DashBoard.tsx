@@ -3,6 +3,8 @@ import { Star, User, LogOut } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router-dom"
 import { useAuthStore } from "../../store"
+import { useQuery } from "@tanstack/react-query"
+import api from "../../utils/api"
 
 const DashBoard = () => {
     const { t } = useTranslation()
@@ -10,31 +12,37 @@ const DashBoard = () => {
 
     const logout = useAuthStore((state) => state.logout);
 
-    const recentStudents = [
-        {
-            id: 1,
-            name: "Philippe",
-            email: "philippe@example.com",
-            dateJoined: "26th February, 2026",
+    const user = useAuthStore((state) => state.user);
+
+    const { data: dashboardData, isLoading } = useQuery({
+        queryKey: ['mentorDashboardStats'],
+        queryFn: async () => {
+            const [menteesRes, reviewsRes] = await Promise.all([
+                api.get("/getAllMentees"),
+                api.get(`/getMentorReview/${user?.id}`)
+            ]);
+
+            const mentees = menteesRes.data?.data || menteesRes.data?.mentees || [];
+            const reviews = reviewsRes.data?.data || reviewsRes.data?.reviews || [];
+
+            // Calculate average rating
+            const totalRating = reviews.reduce((sum: number, r: any) => sum + (r.rating || 0), 0);
+            const avgRating = reviews.length > 0 ? (totalRating / reviews.length).toFixed(1) : "0.0";
+
+            return { mentees, avgRating };
         },
-        {
-            id: 2,
-            name: "Gauthier",
-            email: "gauthier@example.com",
-            dateJoined: "25th February, 2026",
-        },
-        {
-            id: 3,
-            name: "Samuel Eto'o",
-            email: "sam.etoo@outlook.com",
-            dateJoined: "24th February, 2026",
-        },
-    ];
+        enabled: !!user?.id,
+        staleTime: 5 * 60 * 1000,
+    });
+
+    const mentees = dashboardData?.mentees || [];
+    const avgRating = dashboardData?.avgRating || "0.0";
+    const recentStudents = mentees.slice(0, 4);
 
     return (
         <div className="sm:mx-20 sm:my-10 mx-6 my-5">
             <div className="flex justify-between items-center relative">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-heading">{t('mentorDashboard.welcome', { name: 'Philippe' })}</h1>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-heading">{t('mentorDashboard.welcome', { name: user?.Fname || 'User' })}</h1>
 
                 <div className="relative">
                     <button
@@ -63,14 +71,18 @@ const DashBoard = () => {
                 <div className="p-10 rounded-2xl shadow-sm w-full flex items-center justify-between bg-accent/7">
                     <div>
                         <h2 className="lg:text-2xl text-xl font-heading">{t('mentorDashboard.stats.students')}</h2>
-                        <p className="lg:text-4xl text-3xl font-heading mt-2">100</p>
+                        <p className="lg:text-4xl text-3xl font-heading mt-2">
+                            {isLoading ? "..." : mentees.length}
+                        </p>
                     </div>
                     <User size={30} className="w-7 h-7 flex items-center justify-center" />
                 </div>
                 <div className="p-10 rounded-2xl shadow-sm w-full flex items-center justify-between bg-green-500/7">
                     <div>
                         <h2 className="lg:text-2xl  text-xl font-heading">{t('mentorDashboard.stats.rating')}</h2>
-                        <p className="lg:text-4xl text-3xl font-heading mt-2">4.8</p>
+                        <p className="lg:text-4xl text-3xl font-heading mt-2">
+                            {isLoading ? "..." : avgRating}
+                        </p>
                     </div>
                     <Star size={30} className="w-7 h-7 flex items-center justify-center" />
                 </div>
@@ -92,32 +104,47 @@ const DashBoard = () => {
 
                 {/* Student Rows */}
                 <div className="space-y-6">
-                    {recentStudents.map((student, index) => (
-                        <div
-                            key={student.id}
-                            className="flex flex-col gap-2 sm:grid sm:grid-cols-[80px_1fr_1fr] sm:items-center sm:border-0 border-b border-gray-200 sm:pb-4 sm:mb-0 pb-4 mb-6 last:border-0 last:mb-0"
-                        >
-                            {/* Number */}
-                            <div className="font-heading text-lg">
-                                <span className="sm:hidden text-gray-400 text-sm">{t('mentorDashboard.recentStudents.mobileLabels.no')}</span>
-                                {index + 1}
-                            </div>
+                    {isLoading ? (
+                        <p className="text-gray-500 font-medium py-10 text-center">{t('common.loading') || "Loading students..."}</p>
+                    ) : recentStudents.length === 0 ? (
+                        <p className="text-gray-500 font-medium py-10 text-center">{t('mentorDashboard.recentStudents.noStudents') || "No students yet."}</p>
+                    ) : (
+                        recentStudents.slice(0, 4).map((student: any, index: number) => {
+                            const studentName = student.name || (student.user ? `${student.user.Fname} ${student.user.Lname}` : "Unknown Student");
+                            const studentEmail = student.email || student.user?.email || "No email provided";
 
-                            {/* Name + Email */}
-                            <div className="flex items-center gap-4">
-                                <div>
-                                    <h3 className="text-lg font-heading">{student.name}</h3>
-                                    <p className="text-sm text-gray-500">{student.email}</p>
+                            // Try multiple possible date fields from the backend
+                            const rawDate = student.createdAt || student.joinedAt || student.user?.createdAt || student.dateJoined;
+                            const dateJoined = rawDate ? new Date(rawDate).toLocaleDateString() : "N/A";
+
+                            return (
+                                <div
+                                    key={student.id}
+                                    className="flex flex-col gap-2 sm:grid sm:grid-cols-[80px_1fr_1fr] sm:items-center sm:border-b border-gray-100 sm:pb-4 last:border-0"
+                                >
+                                    {/* Number */}
+                                    <div className="font-heading text-lg">
+                                        <span className="sm:hidden text-gray-400 text-sm">{t('mentorDashboard.recentStudents.mobileLabels.no')}</span>
+                                        {index + 1}
+                                    </div>
+
+                                    {/* Name + Email */}
+                                    <div className="flex items-center gap-4">
+                                        <div>
+                                            <h3 className="text-lg font-heading">{studentName}</h3>
+                                            <p className="text-sm text-gray-500">{studentEmail}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Date Joined */}
+                                    <div className="sm:text-right font-medium text-gray-600">
+                                        <span className="sm:hidden text-gray-400 text-sm">{t('mentorDashboard.recentStudents.mobileLabels.joined')}</span>
+                                        {dateJoined}
+                                    </div>
                                 </div>
-                            </div>
-
-                            {/* Date Joined */}
-                            <div className="sm:text-right font-medium text-gray-600">
-                                <span className="sm:hidden text-gray-400 text-sm">{t('mentorDashboard.recentStudents.mobileLabels.joined')}</span>
-                                {student.dateJoined}
-                            </div>
-                        </div>
-                    ))}
+                            );
+                        })
+                    )}
                 </div>
             </div>
         </div>
