@@ -345,9 +345,6 @@ const MentorDetails = () => {
                         <h2 className="text-xl text-secondary font-heading mb-6">{t('mentorDetails.recentReviews')}</h2>
                         <div className="space-y-6">
                             {reviews.length > 0 ? reviews.map((r, index) => {
-                                // 👇 Add this line! Check your F12 Console to see exactly what the backend is sending us for reviews
-                                if (index === 0) console.log("Incoming Review Data:", r);
-
                                 // Dynamic fallbacks for different backend structures
                                 const reviewerName = r.author?.user ? `${r.author.user.Fname} ${r.author.user.Lname}` : (r.user?.Fname || 'Student');
                                 const reviewDate = r.createdAt ? new Date(r.createdAt).toLocaleDateString() : r.date || 'Recently';
@@ -363,7 +360,7 @@ const MentorDetails = () => {
                                         <div className="mb-2">
                                             <StarRating rating={reviewRating} size={12} />
                                         </div>
-                                        <p className="text-gray-600 text-sm line-clamp-3">"{reviewText}"</p>
+                                        <p className="text-gray-600 text-sm line-clamp-3">{reviewText}</p>
                                     </div>
                                 );
                             }) : (
