@@ -5,7 +5,6 @@ import api from "../../utils/api"
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import StarRating from '../../components/StarRating'
 
 const MenteeDashBoard = () => {
     const { t } = useTranslation()
@@ -194,7 +193,6 @@ const MenteeDashBoard = () => {
                                                 <span className="text-sm font-semibold">{mentorStudents} <span className="font-normal text-xs uppercase">{t('mentorsPage.card.students')}</span></span>
                                             </div>
                                             <div className="flex items-center gap-2 text-gray-500">
-                                                <StarRating rating={mentorRating} size={14} />
                                                 <span className="text-sm font-semibold">{mentorRating.toFixed(1)} <span className="font-normal text-xs uppercase">{t('mentorsPage.card.rating')}</span></span>
                                             </div>
                                         </div>

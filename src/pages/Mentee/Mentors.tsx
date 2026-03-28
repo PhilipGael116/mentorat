@@ -5,7 +5,6 @@ import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import api from "../../utils/api"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
-import StarRating from "../../components/StarRating"
 
 const Mentors = () => {
     const { t } = useTranslation();
@@ -35,7 +34,7 @@ const Mentors = () => {
 
     const handleJoin = async (mentor: any) => {
         // More robust check: compare both id and userId
-        const isJoined = joinedMentors.some((m: any) => 
+        const isJoined = joinedMentors.some((m: any) =>
             (m.id === mentor.id) || (mentor.userId && m.userId === mentor.userId)
         );
 
@@ -142,7 +141,7 @@ const Mentors = () => {
                     const mentorAbout = mentor.about || mentor.bio || "No description provided.";
                     const mentorStudents = mentor._count?.mentees || 0;
                     const mentorRating = Number(mentor.avRating || 0);
-                    const isJoined = joinedMentors.some((m: any) => 
+                    const isJoined = joinedMentors.some((m: any) =>
                         (m.id === mentor.id) || (mentor.userId && m.userId === mentor.userId)
                     );
 
@@ -173,7 +172,6 @@ const Mentors = () => {
                                         <span className="text-sm font-semibold">{mentorStudents} <span className="font-normal text-xs uppercase">{t('mentorsPage.card.students')}</span></span>
                                     </div>
                                     <div className="flex items-center gap-2 text-gray-500">
-                                        <StarRating rating={mentorRating} size={16} />
                                         <span className="text-sm font-semibold">{mentorRating.toFixed(1)} <span className="font-normal text-xs uppercase">{t('mentorsPage.card.rating')}</span></span>
                                     </div>
                                 </div>
