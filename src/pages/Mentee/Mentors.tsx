@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import api from "../../utils/api"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
+import StarRating from "../../components/StarRating"
 
 const Mentors = () => {
     const { t } = useTranslation();
@@ -172,6 +173,7 @@ const Mentors = () => {
                                         <span className="text-sm font-semibold">{mentorStudents} <span className="font-normal text-xs uppercase">{t('mentorsPage.card.students')}</span></span>
                                     </div>
                                     <div className="flex items-center gap-2 text-gray-500">
+                                        <StarRating rating={mentorRating} size={16} />
                                         <span className="text-sm font-semibold">{mentorRating.toFixed(1)} <span className="font-normal text-xs uppercase">{t('mentorsPage.card.rating')}</span></span>
                                     </div>
                                 </div>
@@ -197,7 +199,7 @@ const Mentors = () => {
                 })}
             </div>
 
-            {filteredMentors.length === 0 && (
+            {!isLoading && filteredMentors.length === 0 && (
                 <div className="text-center py-20">
                     <p className="text-gray-500 text-lg">{t('mentorsPage.noMentorsFound')}</p>
                 </div>
